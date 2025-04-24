@@ -6,7 +6,12 @@ const Title = ({ text }) => <h2 >{text}</h2>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const StatisticLine = ({ StatisticName, StatisticValue }) => {
-  return <p>{StatisticName} {StatisticValue}</p>
+  return (
+    <tr>
+      <td>{StatisticName}</td>
+      <td>{StatisticValue}</td>
+    </tr>
+  )
 }
 
 const Statistics = ({ goodValue, neutralValue, badValue, total, average, positive }) => {
@@ -14,14 +19,22 @@ const Statistics = ({ goodValue, neutralValue, badValue, total, average, positiv
     return <p className='message'>No feedback given</p>
   }
   return (
-    <div>
-      <StatisticLine StatisticName={'Good'} StatisticValue={goodValue} />
-      <StatisticLine StatisticName={'Neutral'} StatisticValue={neutralValue} />
-      <StatisticLine StatisticName={'Bad'} StatisticValue={badValue} />
-      <StatisticLine StatisticName={'All'} StatisticValue={total} />
-      <StatisticLine StatisticName={'Average'} StatisticValue={average} />
-      <StatisticLine StatisticName={'Positive'} StatisticValue={positive} />
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>StatisticName</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <StatisticLine StatisticName={'Good'} StatisticValue={goodValue} />
+        <StatisticLine StatisticName={'Neutral'} StatisticValue={neutralValue} />
+        <StatisticLine StatisticName={'Bad'} StatisticValue={badValue} />
+        <StatisticLine StatisticName={'All'} StatisticValue={total} />
+        <StatisticLine StatisticName={'Average'} StatisticValue={average} />
+        <StatisticLine StatisticName={'Positive'} StatisticValue={positive} />
+      </tbody>
+    </table>
   )
 }
 

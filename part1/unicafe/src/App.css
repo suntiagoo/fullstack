@@ -38,6 +38,11 @@ p::selection {
   color: #080808;
 }
 
+th,
+td {
+  text-align: center;
+  padding: 10px;
+}
 
 .message {
   font-size: 1.3em;
