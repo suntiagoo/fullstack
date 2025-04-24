@@ -20,13 +20,14 @@ button:hover {
 
 
 
-h3 {
+h2 {
   color: rgb(41, 170, 127);
   padding-left: 3%;
 }
 
 ul {
-  padding-bottom: 0.5%;
+  padding-bottom: 0%;
+  padding-top: 0%;
 }
 
 li {
@@ -40,6 +41,12 @@ li:hover {
 
 li::selection {
   color: #080808;
+}
+
+
+.message {
+  font-size: 1.3em;
+  color: rgb(210, 60, 30);
 }
 
 @media (prefers-color-scheme: light) {

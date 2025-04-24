@@ -1,31 +1,25 @@
 import { useState } from 'react'
 import './App.css'
 
-const Title = ({ text }) => <h3 >{text}</h3>
+const Title = ({ text }) => <h2 >{text}</h2>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const DisplayFeedback = ({ goodValue, neutralValue, badValue }) => {
+const DisplayFeedback = ({ goodValue, neutralValue, badValue, total, average, positive }) => {
+  if (total === 0) {
+    return <p className='message'>No feedback given</p>
+  }
   return (
     <ul>
-      <li>{goodValue}</li>
-      <li>{neutralValue}</li>
-      <li>{badValue}</li>
-
+      <li>{`Good ${goodValue}`}</li>
+      <li>{`Neutral ${neutralValue}`}</li>
+      <li>{`Bad ${badValue}`}</li>
+      <li>{`Total ${total}`}</li>
+      <li>{`Average ${average}`}</li>
+      <li>{`Positive ${positive}%`}</li>
     </ul>
   )
 }
-
-const Statisics = ({ total, average, positive }) => {
-  return (
-    <ul>
-      <li>{total}</li>
-      <li>{average}</li>
-      <li>{positive}</li>
-    </ul>
-  )
-}
-
 
 const App = () => {
   const [good, setGood] = useState(0)
@@ -75,8 +69,7 @@ const App = () => {
       <Button onClick={hadlerSetNeutral} text={'Neutral'} />
       <Button onClick={hadlerSetBad} text={'bad'} />
       <Title text={'Statisics'} />
-      <DisplayFeedback goodValue={`Good ${good}`} neutralValue={`Neutral ${neutral}`} badValue={`Bad ${bad}`} />
-      <Statisics total={`All ${total}`} average={`Average ${average}`} positive={`Positive ${positive}%`} />
+      <DisplayFeedback goodValue={good} neutralValue={neutral} badValue={bad} total={total} average={average} positive={positive} />
     </div>
   )
 }
