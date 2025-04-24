@@ -25,21 +25,16 @@ h2 {
   padding-left: 3%;
 }
 
-ul {
-  padding-bottom: 0%;
-  padding-top: 0%;
-}
 
-li {
-  list-style-type: none;
+p {
   color: rgb(98, 130, 66);
 }
 
-li:hover {
+p:hover {
   font-size: 1.5em;
 }
 
-li::selection {
+p::selection {
   color: #080808;
 }
 

@@ -5,19 +5,23 @@ const Title = ({ text }) => <h2 >{text}</h2>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const DisplayFeedback = ({ goodValue, neutralValue, badValue, total, average, positive }) => {
+const StatisticLine = ({ StatisticName, StatisticValue }) => {
+  return <p>{StatisticName} {StatisticValue}</p>
+}
+
+const Statistics = ({ goodValue, neutralValue, badValue, total, average, positive }) => {
   if (total === 0) {
     return <p className='message'>No feedback given</p>
   }
   return (
-    <ul>
-      <li>{`Good ${goodValue}`}</li>
-      <li>{`Neutral ${neutralValue}`}</li>
-      <li>{`Bad ${badValue}`}</li>
-      <li>{`Total ${total}`}</li>
-      <li>{`Average ${average}`}</li>
-      <li>{`Positive ${positive}%`}</li>
-    </ul>
+    <div>
+      <StatisticLine StatisticName={'Good'} StatisticValue={goodValue} />
+      <StatisticLine StatisticName={'Neutral'} StatisticValue={neutralValue} />
+      <StatisticLine StatisticName={'Bad'} StatisticValue={badValue} />
+      <StatisticLine StatisticName={'All'} StatisticValue={total} />
+      <StatisticLine StatisticName={'Average'} StatisticValue={average} />
+      <StatisticLine StatisticName={'Positive'} StatisticValue={positive} />
+    </div>
   )
 }
 
@@ -69,7 +73,7 @@ const App = () => {
       <Button onClick={hadlerSetNeutral} text={'Neutral'} />
       <Button onClick={hadlerSetBad} text={'bad'} />
       <Title text={'Statisics'} />
-      <DisplayFeedback goodValue={good} neutralValue={neutral} badValue={bad} total={total} average={average} positive={positive} />
+      <Statistics goodValue={good} neutralValue={neutral} badValue={bad} total={total} average={average} positive={positive} />
     </div>
   )
 }
