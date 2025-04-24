@@ -5,13 +5,20 @@ const Title = ({ text }) => <h3 >{text}</h3>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const Display = ({ goodValue, neutralValue, badValue, total, average, positive }) => {
-  console.log(average)
+const DisplayFeedback = ({ goodValue, neutralValue, badValue }) => {
   return (
     <ul>
       <li>{goodValue}</li>
       <li>{neutralValue}</li>
       <li>{badValue}</li>
+
+    </ul>
+  )
+}
+
+const Statisics = ({ total, average, positive }) => {
+  return (
+    <ul>
       <li>{total}</li>
       <li>{average}</li>
       <li>{positive}</li>
@@ -68,8 +75,8 @@ const App = () => {
       <Button onClick={hadlerSetNeutral} text={'Neutral'} />
       <Button onClick={hadlerSetBad} text={'bad'} />
       <Title text={'Statisics'} />
-      <Display goodValue={`Good ${good}`} neutralValue={`Neutral ${neutral}`} badValue={`Bad ${bad}`} total={`All ${total}`} average={`Average ${average}`} positive={`Positive ${positive}%`} />
-      <br />
+      <DisplayFeedback goodValue={`Good ${good}`} neutralValue={`Neutral ${neutral}`} badValue={`Bad ${bad}`} />
+      <Statisics total={`All ${total}`} average={`Average ${average}`} positive={`Positive ${positive}%`} />
     </div>
   )
 }

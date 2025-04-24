@@ -22,11 +22,24 @@ button:hover {
 
 h3 {
   color: rgb(41, 170, 127);
+  padding-left: 3%;
+}
+
+ul {
+  padding-bottom: 0.5%;
 }
 
 li {
   list-style-type: none;
   color: rgb(98, 130, 66);
+}
+
+li:hover {
+  font-size: 1.5em;
+}
+
+li::selection {
+  color: #080808;
 }
 
 @media (prefers-color-scheme: light) {
@@ -38,6 +51,8 @@ li {
   a:hover {
     color: #747bff;
   }
+
+
 
   button {
     background-color: #f9f9f9;
