@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import './App.css'
 
+const Title = ({ title }) => <h2>{title}</h2>
+
+const Display = ({ text }) => <p>{text}</p>
+
 const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>
 }
-
-const Display = ({ text }) => <p>{text}</p>
 
 const App = () => {
   const anecdotes = [
@@ -35,10 +37,14 @@ const App = () => {
 
   return (
     <div>
+      <Title title={'Anecdote of the day'} />
       <Display text={anecdotes[selected]} />
+      <Display text={`Has ${vote[selected]} votes`} />
       <Button onClick={hadlerShowRandomAnecdotes} text={'next anecdotes'} />
       <Button onClick={hadleAnecdoteVote} text={'vote'} />
-      <Display text={`Has ${vote[selected]} votes`} />
+      <Title title={'Anecdote with most vote'} />
+      <Display text={anecdotes[vote.indexOf(Math.max.apply(null, vote))]} />
+      <Display text={`Has ${Math.max.apply(null, vote)} votes`} />
     </div>
   )
 }
