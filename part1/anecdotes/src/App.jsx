@@ -5,7 +5,7 @@ const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>
 }
 
-const Display = ({ anecdotes }) => <p>{anecdotes}</p>
+const Display = ({ text }) => <p>{text}</p>
 
 const App = () => {
   const anecdotes = [
@@ -20,16 +20,25 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [vote, setVote] = useState(Array(8).fill(0))
 
   const hadlerShowRandomAnecdotes = () => {
     const randowNumber = Math.floor(Math.random() * 8);
     setSelected(randowNumber)
   }
 
+  const hadleAnecdoteVote = () => {
+    const copy = [...vote]
+    copy[selected] += 1
+    setVote(copy)
+  }
+
   return (
     <div>
-      <Display anecdotes={anecdotes[selected]} />
+      <Display text={anecdotes[selected]} />
       <Button onClick={hadlerShowRandomAnecdotes} text={'next anecdotes'} />
+      <Button onClick={hadleAnecdoteVote} text={'vote'} />
+      <Display text={`Has ${vote[selected]} votes`} />
     </div>
   )
 }
