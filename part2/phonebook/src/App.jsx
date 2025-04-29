@@ -22,19 +22,19 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const addPerson = () => {
+  const addPerson = (event) => {
     event.preventDefault()
     const person = {
       name: newName,
       id: persons.length + 1,
     }
-    setPersons(persons.concat(person))
+    persons.find(person => person.name === newName) === undefined ? setPersons(persons.concat(person)) : alert(`${newName} is already added to phonebook`)
     setNewName('')
   }
 
   return (
     <div>
-      <h2> Phonebook</h2>
+      <h2>Phonebook</h2>
       <fieldset >
         <legend><strong>Phonebook form</strong></legend>
         <form onSubmit={addPerson}>
