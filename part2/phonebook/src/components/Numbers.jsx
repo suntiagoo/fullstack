@@ -7,14 +7,15 @@ const Numbers = ({ people, input }) => {
         else {
             return person.name.toLowerCase().includes(input)
         }
-
     })
+
 
     return (
         <ul>
-            {filteredPerson.map((item) => (
-                <li key={item.id}>{item.name} {item.phone}</li>
-            ))}
+            {
+                filteredPerson.map((item) => (
+                    <li key={item.id}>{item.name} {item.number}</li>
+                ))}
         </ul>
     )
 }
