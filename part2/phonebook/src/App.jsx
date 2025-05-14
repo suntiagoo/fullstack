@@ -3,7 +3,7 @@ import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 //import axios from 'axios'
-import phone from './services/phone'
+import Phone from './services/Phone'
 
 const App = () => {
 
@@ -13,7 +13,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    phone
+    Phone
       .getAll()
       .then(response => {
         setPersons(response.data)
@@ -26,7 +26,7 @@ const App = () => {
     const isRepeated = persons.find(person => person.name === name) === undefined ? false : true
 
     if (!isRepeated) {
-      phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
+      Phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
     }
     else {
       alert(`${name} is already added to phonebook`)
@@ -46,7 +46,7 @@ const App = () => {
       <h2>Add new </h2>
       <PersonForm personName={name} newPhone={number} setNewName={setName} setNewPhone={setNumber} addPerson={addPerson} />
       <h2>Numbers</h2>
-      <Numbers people={persons} input={filter} />
+      <Numbers people={persons} input={filter} setPerson={setPersons} />
     </div>
   )
 }
