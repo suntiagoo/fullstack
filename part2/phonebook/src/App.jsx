@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-//import axios from 'axios'
 import Phone from './services/Phone'
 
 const App = () => {
@@ -18,7 +17,9 @@ const App = () => {
       .then(response => {
         setPersons(response.data)
       })
+
   }, [])
+
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -29,17 +30,18 @@ const App = () => {
       Phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
     }
     else {
-      alert(`${name} is already added to phonebook`)
+      if (confirm(`${name} is already added to phonebook, remplace the old number with a new one?`)) {
+        const { id } = persons.find(person => person.name === name)
+        Phone.update(id, { name: name, number: number }).then(response => {
+          const aux = persons.filter(person => person.id !== id)
+          setPersons(aux.concat(response.data))
+        })
+      }
     }
     setPersons(persons)
     setName('')
     setNumber('')
-
-    //persons.find(person => person.name === name) !== undefined && alert(`${name} is already added to phonebook`)
-    //const nonRepeatedPeople = persons.find(person => person.name === name) === undefined ? persons.concat(person) : persons
-    //persons.find(person => person.name === newName) === undefined ? setPersons(persons.concat(person)) : alert(`${newName} is already added to phonebook`)
   }
-
   return (
     <div>
       <Filter filter={filter} setFilter={setFilter} />

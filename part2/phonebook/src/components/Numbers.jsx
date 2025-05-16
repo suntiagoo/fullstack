@@ -6,6 +6,8 @@ const Button = ({ onClick }) => {
 
 const Numbers = ({ people, input, setPerson }) => {
 
+
+
     const filteredPerson = people.filter((person) => {
         if (input === '') {
             return people;
@@ -14,6 +16,7 @@ const Numbers = ({ people, input, setPerson }) => {
             return person.name.toLowerCase().includes(input)
         }
     })
+
 
     const handleRemove = (id, name) => {
         if (confirm(`Are you sure you want to delete ${name}?`)) {
