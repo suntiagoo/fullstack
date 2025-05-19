@@ -1,0 +1,8 @@
+.error {
+    color: aqua;
+    background-color: azure;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+    align-items: center;
+    padding-left: 30%;
+}

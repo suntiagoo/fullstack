@@ -1,7 +1,3 @@
-import axios from "axios"
-
-
-
 const PersonForm = ({ personName, newPhone, setNewName, setNewPhone, addPerson }) => {
 
     const hadleName = (event) => {

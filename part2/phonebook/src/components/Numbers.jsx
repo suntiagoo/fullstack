@@ -6,8 +6,6 @@ const Button = ({ onClick }) => {
 
 const Numbers = ({ people, input, setPerson }) => {
 
-
-
     const filteredPerson = people.filter((person) => {
         if (input === '') {
             return people;
