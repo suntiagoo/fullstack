@@ -30,6 +30,7 @@ const App = () => {
 
     if (!isRepeated) {
       Phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
+      setErrorMessage(`${name} was registered on our server`)
     }
     else {
       if (confirm(`${name} is already added to phonebook, remplace the old number with a new one?`)) {
@@ -37,14 +38,15 @@ const App = () => {
         const { id } = persons.find(person => person.name === name)
         Phone.update(id, { name: name, number: number }).then(response => {
           const aux = persons.filter(person => person.id !== id)
-          setErrorMessage(`${name} was added sucefull`)
-
+          setErrorMessage(`${name}'s number was successfully edited`)
           setPersons(aux.concat(response.data))
+        }).catch(error => {
+          setErrorMessage(`Information of ${name} has already been removed from server`)
+          console.error(`error 404 ${error}`)
         })
       }
     }
     setTimeout(() => { setErrorMessage(null) }, 5000)
-    setErrorMessage('hola')
     setPersons(persons)
     setName('')
     setNumber('')

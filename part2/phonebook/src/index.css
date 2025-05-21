@@ -2,6 +2,10 @@
     color: aqua;
     background-color: azure;
     font-family: 'Times New Roman', Times, serif;
+    border-style: solid;
+    border-style: none;
+    border-color: black;
+    border-width: 0.01em;
     font-size: x-large;
     align-items: center;
     padding-left: 30%;
