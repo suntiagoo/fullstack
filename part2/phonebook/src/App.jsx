@@ -22,11 +22,13 @@ const App = () => {
 
   }, [])
 
-
+  console.log(persons)
   const addPerson = (event) => {
     event.preventDefault()
     const person = { name, number }
     const isRepeated = persons.find(person => person.name === name) === undefined ? false : true
+
+
 
     if (!isRepeated) {
       Phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
@@ -47,9 +49,10 @@ const App = () => {
       }
     }
     setTimeout(() => { setErrorMessage(null) }, 5000)
-    setPersons(persons)
+
     setName('')
     setNumber('')
+    setPersons(persons)
   }
   return (
     <div>
