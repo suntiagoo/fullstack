@@ -1,5 +1,7 @@
 import axios from "axios";
-const dataUrl = 'http://localhost:3001/api/persons'
+//const dataUrl = 'https://fullstack-part3-94om.onrender.com/api/persons'
+const dataUrl = '/api/persons'
+
 
 const getAll = () => {
     return axios.get(dataUrl)
