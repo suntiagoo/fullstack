@@ -29,7 +29,7 @@ const Numbers = ({ people, input, setPerson }) => {
         <ul>
             {
                 filteredPerson.map((item) => (
-                    <li key={item.id}>{item.name} {item.number} <Button onClick={() => handleRemove(item.id, item.name)} /> </li>
+                    <li key={item.id}>{item.name} {`cell:${item.phone}`} <Button onClick={() => handleRemove(item.id, item.name)} /> </li>
                 ))
             }
         </ul>

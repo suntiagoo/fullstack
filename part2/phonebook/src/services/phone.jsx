@@ -11,8 +11,8 @@ const create = (newPhone) => {
     return axios.post(dataUrl, newPhone)
 }
 
-const update = (id, number) => {
-    return axios.put(`${dataUrl}/${id}`, number)
+const update = (id, phone) => {
+    return axios.put(`${dataUrl}/${id}`, phone)
 }
 
 const deletePhone = (id) => {

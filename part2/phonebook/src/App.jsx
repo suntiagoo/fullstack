@@ -9,7 +9,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [persons, setPersons] = useState([])
   const [name, setName] = useState('')
-  const [number, setNumber] = useState('')
+  const [phone, setNumber] = useState('')
   const [filter, setFilter] = useState('')
 
 
@@ -25,7 +25,7 @@ const App = () => {
   console.log(persons)
   const addPerson = (event) => {
     event.preventDefault()
-    const person = { name, number }
+    const person = { name, phone }
     const isRepeated = persons.find(person => person.name === name) === undefined ? false : true
 
 
@@ -35,10 +35,10 @@ const App = () => {
       setErrorMessage(`${name} was registered on our server`)
     }
     else {
-      if (confirm(`${name} is already added to phonebook, remplace the old number with a new one?`)) {
+      if (confirm(`${name} is already added to phonebook, remplace the old phone with a new one?`)) {
 
         const { id } = persons.find(person => person.name === name)
-        Phone.update(id, { name: name, number: number }).then(response => {
+        Phone.update(id, { name, phone }).then(response => {
           const aux = persons.filter(person => person.id !== id)
           setErrorMessage(`${name}'s number was successfully edited`)
           setPersons(aux.concat(response.data))
@@ -59,7 +59,7 @@ const App = () => {
       <Notification message={errorMessage} />
       <Filter filter={filter} setFilter={setFilter} />
       <h2>Add new </h2>
-      <PersonForm personName={name} newPhone={number} setNewName={setName} setNewPhone={setNumber} addPerson={addPerson} />
+      <PersonForm personName={name} newPhone={phone} setNewName={setName} setNewPhone={setNumber} addPerson={addPerson} />
       <h2>Numbers</h2>
       <Numbers people={persons} input={filter} setPerson={setPersons} />
     </div>
