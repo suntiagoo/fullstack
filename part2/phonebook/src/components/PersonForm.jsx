@@ -15,11 +15,11 @@ const PersonForm = ({ personName, newPhone, setNewName, setNewPhone, addPerson }
             <legend><strong>Phonebook form</strong></legend>
             <form onSubmit={addPerson}>
                 <label >
-                    name:<strong>*</strong><input id='name' value={personName} onChange={hadleName} minLength={2} maxLength={20} placeholder='E.g Bob Muller' required />
+                    <strong>*</strong>name: <input id='name' value={personName} onChange={hadleName} minLength={2} maxLength={20} placeholder='E.g Bob Muller' required />
                 </label>
                 <div>
                     <label>
-                        Phone: <strong>*</strong> <input type='number' id='phone' value={newPhone} onChange={hadlePhone} minLength={7} maxLength={10} placeholder='E.g 0520599563' required />
+                        <strong>*</strong>Phone:<input type='text' id='phone' value={newPhone} onChange={hadlePhone} minLength={9} maxLength={14} placeholder='E.g 320-1233214' required />
                     </label>
                 </div>
                 <div>

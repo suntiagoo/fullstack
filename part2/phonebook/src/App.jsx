@@ -9,7 +9,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [persons, setPersons] = useState([])
   const [name, setName] = useState('')
-  const [phone, setNumber] = useState('')
+  const [phone, setPhone] = useState('')
   const [filter, setFilter] = useState('')
 
 
@@ -22,7 +22,7 @@ const App = () => {
 
   }, [])
 
-  console.log(persons)
+  //console.log(persons)
   const addPerson = (event) => {
     event.preventDefault()
     const person = { name, phone }
@@ -31,8 +31,14 @@ const App = () => {
 
 
     if (!isRepeated) {
-      Phone.create(person).then(response => { setPersons(persons.concat(response.data)) })
-      setErrorMessage(`${name} was registered on our server`)
+      Phone.create(person).then(response => {
+        setPersons(persons.concat(response.data))
+        setErrorMessage(`${name} was registered on our server`)
+      }).
+        catch(error => {
+          console.log('error:', error.response.data.error)
+          setErrorMessage(`${error.response.data.error}`)
+        })
     }
     else {
       if (confirm(`${name} is already added to phonebook, remplace the old phone with a new one?`)) {
@@ -40,18 +46,18 @@ const App = () => {
         const { id } = persons.find(person => person.name === name)
         Phone.update(id, { name, phone }).then(response => {
           const aux = persons.filter(person => person.id !== id)
-          setErrorMessage(`${name}'s number was successfully edited`)
           setPersons(aux.concat(response.data))
+          setErrorMessage(`${name}'s number was successfully edited`)
         }).catch(error => {
-          setErrorMessage(`Information of ${name} has already been removed from server`)
-          console.error(`error 404 ${error}`)
+          setErrorMessage(`error: ${error.response.data.error}`)
+          console.error(`error  ${error.response.data.error}`)
         })
       }
     }
     setTimeout(() => { setErrorMessage(null) }, 5000)
 
     setName('')
-    setNumber('')
+    setPhone('')
     setPersons(persons)
   }
   return (
@@ -59,7 +65,7 @@ const App = () => {
       <Notification message={errorMessage} />
       <Filter filter={filter} setFilter={setFilter} />
       <h2>Add new </h2>
-      <PersonForm personName={name} newPhone={phone} setNewName={setName} setNewPhone={setNumber} addPerson={addPerson} />
+      <PersonForm personName={name} newPhone={phone} setNewName={setName} setNewPhone={setPhone} addPerson={addPerson} />
       <h2>Numbers</h2>
       <Numbers people={persons} input={filter} setPerson={setPersons} />
     </div>
