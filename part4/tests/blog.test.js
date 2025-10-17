@@ -100,7 +100,7 @@ describe('total likes', () => {
             __v: 0
         },
     ]
-    const notArray = 'likes'
+    const notArray = 5
 
 
     test('when list is empty', () => {
@@ -120,15 +120,61 @@ describe('total likes', () => {
         assert.strictEqual(result, 37)
     })
 
-
-
     test('when recive a value not array', () => {
         const result = listhelper.totalLikes(notArray)
-        assert.strictEqual(result, 'check if the value that you get is e array')
+        assert.strictEqual(result, null)
     })
 
-    test('when list does not have like propiety', () => {
+    test('when list has a object/data without likes propiety', () => {
         const result = listhelper.totalLikes(blogWithoutLikePropiety)
         assert.strictEqual(result, 19)
+    })
+})
+
+describe('favorite blog', () => {
+    const notArray = 5
+    const listEmpty = []
+    const blogs = [
+        {
+            _id: "5a422a851b54a676234d17f7",
+            title: "React patterns",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 5,
+            __v: 0
+        },
+        {
+            _id: "5a422aa71b54a676234d17f8",
+            title: "Go To Statement Considered Harmful",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+            likes: 6,
+            __v: 0
+        },
+        {
+            _id: "5a422b3a1b54a676234d17f9",
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+            likes: 3,
+            __v: 0
+        },
+    ]
+
+
+
+    test('when list is empty', () => {
+        const result = listhelper.totalLikes(listEmpty)
+        assert.strictEqual(result, 0)
+    })
+
+    test('the blog or a of the blogs with more likes', () => {
+        const result = listhelper.favoriteBlog(blogs)
+        assert.strictEqual(result, 6)
+    })
+
+    test('when recive a value not array', () => {
+        const result = listhelper.favoriteBlog(notArray)
+        assert.strictEqual(result, null)
     })
 })
