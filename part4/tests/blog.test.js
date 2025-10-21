@@ -131,6 +131,7 @@ describe('total likes', () => {
     })
 })
 
+
 describe('favorite blog', () => {
     const notArray = 5
     const listEmpty = []
@@ -177,6 +178,8 @@ describe('favorite blog', () => {
     })
 })
 
+
+
 describe('the author that have major likes', () => {
     const blogs = [
         {
@@ -205,8 +208,15 @@ describe('the author that have major likes', () => {
         },
     ]
 
-
     const blogWithoutAuthor = [
+        {
+            _id: "5a422a851b54a676234d17f7",
+            title: "React patterns",
+            //author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 7,
+            __v: 0
+        },
         {
             _id: "5a422aa71b54a676234d17f8",
             title: "Go To Statement Considered Harmful",
@@ -220,7 +230,7 @@ describe('the author that have major likes', () => {
             title: "Canonical string reduction",
             //author: "Edsger W. Dijkstra",
             url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-            likes: 13,
+            likes: 12,
             __v: 0
         },
     ]
@@ -233,8 +243,48 @@ describe('the author that have major likes', () => {
         })
     })
 
-    test('blogs without author', (blogs) => {
+    test('blogs without author', () => {
         const result = listhelper.mostBlogs(blogWithoutAuthor)
         assert.strictEqual(result, 'the blogs does not have author')
     })
+})
+
+
+describe('the most liked author', () => {
+    const blogs = [
+        {
+            _id: "5a422a851b54a676234d17f7",
+            title: "React patterns",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 5,
+            __v: 0
+        },
+        {
+            _id: "5a422aa71b54a676234d17f8",
+            title: "Go To Statement Considered Harmful",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+            likes: 6,
+            __v: 0
+        },
+        {
+            _id: "5a422b3a1b54a676234d17f9",
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+            likes: 15,
+            __v: 0
+        },
+    ]
+
+    test('the author whose blog posts have the most likes.', () => {
+
+        const result = listhelper.mostLikes(blogs)
+        assert.deepEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            likes: 21
+        })
+    })
+
 })

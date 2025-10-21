@@ -44,8 +44,6 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    //utilizar la libreria Lodash con la funcion _.omit
-
     if (!Array.isArray(blogs)) {
         return null
     } else
@@ -60,12 +58,30 @@ const mostBlogs = (blogs) => {
             const formatTheValue = _.maxBy(Object.keys(amountBlogByAuthor).map((value, key) => { return { author: value, blogs: amountBlogByAuthor[value] } }), 'blogs')
             return formatTheValue
         }
+}
 
+const mostLikes = (blogs) => {
+
+    if (!Array.isArray(blogs)) {
+        return null
+    } else
+        if (blogs.length === 0)
+            return 0
+        else {
+            const blogWitoutAhuthor = blogs.filter(blog => ('author' in blog))
+            if (blogWitoutAhuthor.length === 0) {
+                return 'the blogs does not have author'
+            }
+            const grupByAuthor = _.groupBy(blogWitoutAhuthor, 'author')
+            const formatTheValue = _.maxBy(Object.keys(grupByAuthor).map((value, key) => { return { author: value, likes: Number(_.sumBy(grupByAuthor[value], 'likes')) } }), 'likes')
+            return formatTheValue
+        }
 }
 
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
