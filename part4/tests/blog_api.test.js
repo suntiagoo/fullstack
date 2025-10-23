@@ -16,6 +16,11 @@ beforeEach(async () => {
     await BlogObject.save()
     BlogObject = new Blog(helper.initialBlogs[1])
     await BlogObject.save()
+    BlogObject = new Blog(helper.initialBlogs[2])
+    await BlogObject.save()
+    BlogObject = new Blog(helper.initialBlogs[3])
+    await BlogObject.save()
+
 })
 
 
@@ -36,9 +41,24 @@ describe('4.9 - check the name of blog id', () => {
         const NotIdByBlog = response.body.some(blog => (('id' in blog) && blog.id.length === 24))
         const id = response.body.map(blog => blog.id)
 
-        assert.strictEqual(NotIdByBlog, false)
+        assert.strictEqual(NotIdByBlog, true)
         assert.strictEqual(id.includes('5a422a851b54a676234d17f7'), true)
 
+    })
+})
+
+describe('POST blog', () => {
+    test('check if a blog will add correctly ', async () => {
+        await api.post('/api/blogs/').send({
+            title: "code is hard",
+            author: "Angel C. Miguel",
+            url: "http://blog.code.com",
+            likes: 22
+        }).expect(201).expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/blogs')
+        assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
+        assert.strictEqual(response.body[response.body.length], helper.initialBlogs[helper.initialBlogs.length + 1])
     })
 })
 
