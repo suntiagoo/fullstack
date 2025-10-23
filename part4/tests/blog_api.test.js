@@ -1,10 +1,11 @@
 require('dotenv').config()
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
 const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
+const assert = require('node:assert')
 
 const api = supertest(app)
 
@@ -18,11 +19,27 @@ beforeEach(async () => {
 })
 
 
-test('blogs are returned as json', async () => {
-    await api
-        .get('/api/blogs')
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
+
+describe('4.8 - get blogs', () => {
+    test('blogs are returned as json', async () => {
+        await api
+            .get('/api/blogs')
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+    })
+})
+
+describe('4.9 - check the name of blog id', () => {
+    test('check if the id blog call "id"', async () => {
+
+        const response = await api.get('/api/blogs')
+        const NotIdByBlog = response.body.some(blog => (('id' in blog) && blog.id.length === 24))
+        const id = response.body.map(blog => blog.id)
+
+        assert.strictEqual(NotIdByBlog, false)
+        assert.strictEqual(id.includes('5a422a851b54a676234d17f7'), true)
+
+    })
 })
 
 after(async () => {
