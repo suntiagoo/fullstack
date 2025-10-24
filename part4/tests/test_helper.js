@@ -7,14 +7,14 @@ const initialBlogs = [
         title: "React patterns",
         author: "Michael Chan",
         url: "https://reactpatterns.com/",
-        likes: 7,
+        //likes: 7,
     },
     {
         _id: "5a422aa71b54a676234d17f8",
         title: "Go To Statement Considered Harmful",
         author: "Edsger W. Dijkstra",
         url: "http://www.u.arizona.edu/",
-        likes: 5,
+        //likes: 5,
     },
     {
         _id: "5a422b3a1b54a676234d17f9",

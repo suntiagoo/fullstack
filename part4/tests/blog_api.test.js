@@ -47,8 +47,8 @@ describe('4.9 - check the name of blog id', () => {
     })
 })
 
-describe('POST blog', () => {
-    test('check if a blog will add correctly ', async () => {
+describe('4.10 - POST blog', () => {
+    test('check if a blog will add correctly', async () => {
         await api.post('/api/blogs/').send({
             title: "code is hard",
             author: "Angel C. Miguel",
@@ -59,6 +59,17 @@ describe('POST blog', () => {
         const response = await api.get('/api/blogs')
         assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
         assert.strictEqual(response.body[response.body.length], helper.initialBlogs[helper.initialBlogs.length + 1])
+    })
+})
+
+describe('4.11* check like propierty exist in blog', () => {
+    test('check that exist like property if not put 0', async () => {
+        const response = await api.get('/api/blogs')
+        const IsPropertyLikeByBlog = response.body.every(blog => (('likes' in blog)))
+
+        assert.strictEqual(IsPropertyLikeByBlog, true)
+        assert.strictEqual(response.body[0].likes, 0)
+        assert.strictEqual(response.body[1].likes, 0)
     })
 })
 
