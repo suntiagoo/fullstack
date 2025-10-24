@@ -90,10 +90,22 @@ describe('check if a blog will add correctly with your properties', () => {
         test('delete a blog with id', async () => {
             const response = await helper.blogsInDb()
             await api.del(`/api/blogs/${response[3].id}`).expect(204)
+
             const blogsAtEnd = await helper.blogsInDb()
             assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
-
         })
+    })
+})
+
+describe("update likes' blog ", () => {
+    test('set new value to like propiety of blog', async () => {
+        const newValueOfLikes = { likes: 55 }
+        const responseStart = await helper.blogsInDb()
+        const result = await api.put(`/api/blogs/${responseStart[3].id}`).send(newValueOfLikes).expect(200)
+        const responsEnd = await helper.blogsInDb()
+        assert.strictEqual(responsEnd[3].likes, newValueOfLikes.likes)
+        assert.deepStrictEqual(result._body, responsEnd[3])
+
     })
 })
 
