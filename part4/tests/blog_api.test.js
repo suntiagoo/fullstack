@@ -73,6 +73,17 @@ describe('4.11* check like propierty exist in blog', () => {
     })
 })
 
+describe('4.12* - POST verificate url and title properties', () => {
+    test('check if url and title properties exist blog', async () => {
+        await api.post('/api/blogs').send({
+            title: "code is hard",
+            author: "Angel C. Miguel",
+            //url: "http://blog.code.com",
+            likes: 22
+        }).expect(400, [{ message: 'blog havent the property tittle or url' }])
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })

@@ -22,10 +22,8 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response) => {
     const blog = new Blog(request.body)
-    //const isLikeByBlog = keys.some(key => ('likes' in key))
-
-    if (!('likes' in blog)) {
-        blog.likes = 0
+    if (!('title' in blog.toObject()) || !('url' in blog.toObject())) {
+        response.status(400).json([{ message: 'blog havent the property tittle or url' }])
     }
 
     const newBlog = await blog.save()
