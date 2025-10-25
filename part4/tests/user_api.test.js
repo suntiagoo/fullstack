@@ -32,9 +32,26 @@ describe('view the users ', () => {
 })
 
 describe('creation succeeds with a fresh usernam', () => {
+
+
+    test('valid username', async () => {
+        const newUser = {
+            username: 'Co',
+            name: 'Roni Feiman',
+            password: 'cools',
+        }
+
+        await api.post('/api/users').send(newUser).expect(400)
+    })
+
+    test('unique username', async () => {
+        const newUser = { username: 'root', name: 'alfred', password: 'alfa' }
+
+        await api.post('/api/users').send(newUser).expect(400)
+    })
+
     test('POST user', async () => {
         const dbResult = await helper.usersInDb()
-
 
         const newUser = {
             username: 'Cols',
@@ -47,14 +64,17 @@ describe('creation succeeds with a fresh usernam', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
+
+
         const usersAfterAdded = await helper.usersInDb()
         assert.strictEqual(usersAfterAdded.length, dbResult.length + 1)
-
-
         const usernames = usersAfterAdded.map(user => user.username)
         assert(usernames.includes(newUser.username))
     })
+
 })
+
+
 
 
 
