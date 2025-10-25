@@ -1,10 +1,11 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const blogRouter = require('express').Router()
 
 
 blogRouter.get('/', async (request, response) => {
 
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     const blogObject = blogs.map(blog => {
         const blogObject = blog.toObject();
         if (!('likes' in blogObject)) {
@@ -23,12 +24,24 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-    const blog = new Blog(request.body)
+    const body = request.body
+    //console.log(body)
+    const user = await User.findById(body.userId)
+
+    const blog = new Blog({
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes === undefined ? 0 : body.likes,
+        user: user.id
+    })
     if (!('title' in blog.toObject()) || !('url' in blog.toObject())) {
         response.status(400).json([{ message: 'blog havent the property tittle or url' }])
     }
 
     const newBlog = await blog.save()
+    user.blogs = user.blogs.concat(newBlog._id)
+    await user.save()
     response.status(201).json(newBlog)
 
 })

@@ -1,4 +1,3 @@
-const { Types } = require('mongoose')
 const mongoose = require('./index')
 
 const blogSchema = new mongoose.Schema({
@@ -18,6 +17,10 @@ const blogSchema = new mongoose.Schema({
     likes: {
         type: Number,
         min: 0
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
