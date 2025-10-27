@@ -1,6 +1,7 @@
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const middleware = require('../utils/middleware')
 const blogRouter = require('express').Router()
 
 
@@ -34,36 +35,33 @@ blogRouter.get('/', async (request, response) => {
     response.status(201).json(blogObject)
 })
 
-blogRouter.post('/', async (request, response) => {
+blogRouter.post('/', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const body = request.body
-    //console.log(body)
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid' })
-    }
-    console.log('CODIGO DECODIFICADO', decodedToken)
-    console.log('ID USUARIO', decodedToken.id)
-    const user = await User.findById(decodedToken.id)
+    /* const decodedToken = jwt.verify(request.token, process.env.SECRET)
+     if (!decodedToken.id) {
+         return response.status(401).json({ error: 'token invalid' })
+     }
+     const user = await User.findById(decodedToken.id)*/
 
     const blog = new Blog({
         title: body.title,
         author: body.author,
         url: body.url,
         likes: body.likes === undefined ? 0 : body.likes,
-        user: user.id
+        user: request.user.id
     })
     if (!('title' in blog.toObject()) || !('url' in blog.toObject())) {
         response.status(400).json([{ message: 'blog havent the property tittle or url' }])
     }
 
     const newBlog = await blog.save()
-    user.blogs = user.blogs.concat(newBlog._id)
-    await user.save()
+    request.user.blogs = request.user.blogs.concat(newBlog._id)
+    await request.user.save()
     response.status(201).json(newBlog)
 
 })
 
-blogRouter.delete('/:id', async (request, response) => {
+blogRouter.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const blog = await Blog.findById(request.params.id)
     if (!blog) {
         return response.status(404).send({ error: 'Request has failed due to non-existent resource.' })
@@ -72,13 +70,13 @@ blogRouter.delete('/:id', async (request, response) => {
         return response.status(401).json({ error: 'token jwt must be provided' })
     }
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    /*const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
-    const user = await User.findById(decodedToken.id)
-
-    if (user.id.toString() === blog.user.toString()) {
+    const user = await User.findById(decodedToken.id)*/
+    console.log(request.user)
+    if (request.user.id.toString() === blog.user.toString()) {
         await Blog.findByIdAndDelete(blog.id);
     }
     response.status(204).end()
@@ -87,13 +85,13 @@ blogRouter.delete('/:id', async (request, response) => {
 blogRouter.put('/:id', async (request, response) => {
     const body = request.body
 
-    const blog = {
+    /*const blog = {
         _id: body.id,
         title: body.title,
         author: body.author,
         url: body.url,
         likes: body.likes,
-    }
+    }*/
 
     const result = await Blog.findByIdAndUpdate(request.params.id, { $set: { likes: body.likes } }, { new: true })
     response.status(200).json(result)
