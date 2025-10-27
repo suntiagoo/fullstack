@@ -19,9 +19,7 @@ const getTokenFrom = (request, response, next) => {
         request.token = authorization.replace('Bearer ', '')
     } else
         request.token = null
-
     next()
-
 }
 
 
