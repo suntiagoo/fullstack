@@ -36,7 +36,7 @@ describe('creation succeeds with a fresh usernam', () => {
 
     test('valid username', async () => {
         const newUser = {
-            username: 'Co',
+            username: 'co',
             name: 'Roni Feiman',
             password: 'cools',
         }
@@ -64,8 +64,6 @@ describe('creation succeeds with a fresh usernam', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
-
-
         const usersAfterAdded = await helper.usersInDb()
         assert.strictEqual(usersAfterAdded.length, dbResult.length + 1)
         const usernames = usersAfterAdded.map(user => user.username)
@@ -73,11 +71,6 @@ describe('creation succeeds with a fresh usernam', () => {
     })
 
 })
-
-
-
-
-
 
 after(async () => {
     await mongoose.connection.close()

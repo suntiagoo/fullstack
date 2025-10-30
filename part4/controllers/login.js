@@ -1,3 +1,4 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
@@ -20,7 +21,7 @@ loginRouter.post('/', async (request, response) => {
     }
     const token = jwt.sign(userForToken, process.env.SECRET)
     response
-        .status(200).send({ token, username: user.username, name: user.name })
+        .status(201).send({ token, username: user.username })
 
 })
 

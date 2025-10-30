@@ -51,7 +51,7 @@ blogRouter.post('/', middleware.tokenExtractor, middleware.userExtractor, async 
         user: request.user.id
     })
     if (!('title' in blog.toObject()) || !('url' in blog.toObject())) {
-        response.status(400).json([{ message: 'blog havent the property tittle or url' }])
+        return response.status(400).json({ message: 'blog havent the property tittle or url' })
     }
 
     const newBlog = await blog.save()
@@ -69,13 +69,11 @@ blogRouter.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, a
     if (!request.token) {
         return response.status(401).json({ error: 'token jwt must be provided' })
     }
-
     /*const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
     const user = await User.findById(decodedToken.id)*/
-    console.log(request.user)
     if (request.user.id.toString() === blog.user.toString()) {
         await Blog.findByIdAndDelete(blog.id);
     }
