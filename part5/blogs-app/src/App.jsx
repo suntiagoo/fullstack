@@ -24,22 +24,31 @@ function App() {
 
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const headleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
 
       blogService.setToken(user.data.token)
-      console.log('usuario', user.data.username)
       setUser(user)
 
       setUsername('')
       setPassword('')
-      setMessage(` ESTE ES EL USUARIO: ${user.data.username}`)
     } catch (exception) {
-      console.log(exception.response.data.error)
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
     }

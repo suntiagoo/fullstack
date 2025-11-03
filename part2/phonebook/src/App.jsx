@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import Phone from './services/Phone'
+import Phone from './services/phone'
 import Notification from './components/Notification'
 
 const App = () => {

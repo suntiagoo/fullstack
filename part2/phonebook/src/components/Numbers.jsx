@@ -1,4 +1,4 @@
-import Phone from '../services/Phone'
+import Phone from '../services/phone'
 
 const Button = ({ onClick }) => {
     return <button onClick={onClick}>delete</button>
