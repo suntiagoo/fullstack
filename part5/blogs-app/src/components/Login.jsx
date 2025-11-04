@@ -13,13 +13,8 @@ const Login = ({ username, setUsername, password, setPassword, onSubmit }) => {
                 <label className="form-box">
                     Password<input className="label-input" id="password" type="password" value={password} onChange={({ target }) => setPassword(target.value)} minLength={3} required></input>
                 </label>
-
             </div>
             <button type="submit">Login</button>
-
-
-
-
         </form>
     )
 

@@ -1,8 +1,9 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import Blog from './components/Blog'
-import Login from './components/Login'
 import MessageInformation from './components/MessageInformation'
+import Login from './components/Login'
+import NewBlog from './components/NewBlog'
+import ShowBlog from './components/ShowBlog'
 import loginService from './services/loginService'
 import blogService from './services/blogService'
 
@@ -25,7 +26,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -40,14 +41,15 @@ function App() {
         username, password,
       })
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
-
       blogService.setToken(user.data.token)
       setUser(user)
-
       setUsername('')
       setPassword('')
+      console.log(user.username)
+      setMessage(`Welcome ${user.data.name} to blogApp `)
+
     } catch (exception) {
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
@@ -56,16 +58,13 @@ function App() {
 
   }
 
-
-
   return (
-    <>
-      <MessageInformation message={message}></MessageInformation>
-      {user == null ? <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} onSubmit={headleLogin} ></Login> : <div><p>{user.data.username}</p>
-        {blog.map((blog) => { return <Blog blog={blog} user={user}></Blog> })}
-      </div>}
+    <div>
+      {message !== null && <MessageInformation message={message}></MessageInformation>}
+      {user == null ? <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} onSubmit={headleLogin} ></Login> :
+        <><h2>BlogApp</h2><p>{`${user.data.name} Logged in`}</p> <NewBlog user={user} blog={blog} setBlog={setBlog} setMessage={setMessage}></NewBlog>  {blog.map((blog) => { return <ShowBlog key={blog.id} blog={blog} user={user}></ShowBlog> })} </>}
+    </div>
 
-    </>
   )
 }
 

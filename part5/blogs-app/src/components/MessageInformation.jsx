@@ -2,7 +2,7 @@ const MessageInformation = ({ message }) => {
 
     return (
         <>
-            <spam>{message}</spam>
+            <span className="infoMessage">{message}</span>
         </>
     )
 
