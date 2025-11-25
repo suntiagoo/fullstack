@@ -1,7 +1,7 @@
 import { useState } from "react"
-import blogService from "../services/blogService"
+//import blogService from "../services/blogService"
 
-const NewBlog = ({ user, blog, setBlog, setMessage }) => {
+const NewBlog = ({ createBlog }) => {
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
@@ -9,19 +9,18 @@ const NewBlog = ({ user, blog, setBlog, setMessage }) => {
         likes: 0
     })
 
-    const headleNewBlog = async (event) => {
+    const headleNewBlog = (event) => {
         event.preventDefault()
-        try {
-            blogService.setToken(user.data.token)
-            const result = await blogService.create(newBlog)
-            setBlog(blog.concat([result.data]))
-            setMessage(`a new blog you're NOT gonna need ir! by ${user.data.name} added`)
-        } catch (exception) {
-            console.log(exception.response)
-            setMessage(exception.response.data.error)
-            alert(exception.response.data.error)
-        }
-        //setTimeout(() => { setMessage(null) }, 5000)
+        createBlog(newBlog)
+        setNewBlog({
+            title: '',
+            author: '',
+            url: '',
+            likes: 0
+        })
+        //blogService.setToken(user.data.token)
+        //const result = await blogService.create(newBlog)
+        //setBlog(blog.concat([result.data]))
     }
 
     return (

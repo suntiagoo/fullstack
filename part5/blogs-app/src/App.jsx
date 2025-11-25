@@ -1,20 +1,21 @@
 import './App.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import MessageInformation from './components/MessageInformation'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog'
-import ShowBlog from './components/ShowBlog'
+import Blog from './components/Blog'
 import loginService from './services/loginService'
 import blogService from './services/blogService'
+import Togglable from './components/Togglable'
+import MainPageStructure from './components/MainPageStructure'
 
 
 function App() {
   const [message, setMessage] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blog, setBlog] = useState([])
 
+  const blogFormRef = useRef()
 
   useEffect(() => {
     const blogs = async () => {
@@ -22,7 +23,6 @@ function App() {
       setBlog(result.data)
     }
     blogs()
-
   }, [])
 
   useEffect(() => {
@@ -34,38 +34,65 @@ function App() {
     }
   }, [])
 
-  const headleLogin = async (event) => {
-    event.preventDefault()
+
+  const handleLogin = async (username, password) => {
     try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      const user = await loginService.login({ username, password, })
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.data.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
-      console.log(user.username)
       setMessage(`Welcome ${user.data.name} to blogApp `)
-
     } catch (exception) {
+
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
     }
-    setTimeout(() => { setMessage(null) }, 5000)
 
   }
+
+  const addBlog = async (newObject) => {
+    try {
+      blogService.setToken(user.data.token)
+      blogFormRef.current.toggleVisibility()
+      const result = await blogService.create(newObject)
+      setBlog(blog.concat([result.data]))
+      setMessage(`a new blog you're NOT gonna need ir! by ${user.data.name} added`)
+    } catch (exception) {
+      console.log(exception.response)
+      setMessage(exception.response.data.error)
+      alert(exception.response.data.error)
+    }
+  }
+
+  setTimeout(() => { setMessage(null) }, 5000)
+
+  const login = () => (
+    <Togglable buttonLabel='log in' >
+      <Login onSubmit={handleLogin}></Login>
+    </Togglable>
+  )
+
+  const blogForm = () => (
+    <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <NewBlog createBlog={addBlog} ></NewBlog>
+    </Togglable>)
+
+  const mainPage = () => (
+    <MainPageStructure user={user} blogForm={blogForm()}>
+      {blog.map((blog) => { return <Blog key={blog.id} blog={blog} user={user}></Blog> })}
+    </MainPageStructure>
+  )
 
   return (
     <div>
       {message !== null && <MessageInformation message={message}></MessageInformation>}
-      {user == null ? <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} onSubmit={headleLogin} ></Login> :
-        <><h2>BlogApp</h2><p>{`${user.data.name} Logged in`}</p> <NewBlog user={user} blog={blog} setBlog={setBlog} setMessage={setMessage}></NewBlog>  {blog.map((blog) => { return <ShowBlog key={blog.id} blog={blog} user={user}></ShowBlog> })} </>}
+      {user == null ? login() : mainPage()}
     </div>
-
   )
 }
 
 export default App
+/* {user == null ? <Login onSubmit={handleLogin} ></Login> :
+   <><h2>BlogApp</h2><p>{`${user.data.name} Logged in`}</p> {blogForm()}  {blog.map((blog) => { return <Blog key={blog.id} blog={blog} user={user}></Blog> })} </>}*/
+
+/*{blog.map((blog) => { return <Togglable key={blog.id}><Blog key={blog.id} blog={blog} user={user}></Blog></Togglable> })}*/

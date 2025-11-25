@@ -34,6 +34,8 @@
 .blog>h3 {
   color: rgb(43, 53, 133);
   font-family: monospace;
+  font-size: 1.5rem;
+
 }
 
 .blog>p {
@@ -73,7 +75,7 @@ body {
 .input-form {
   text-align: start;
   place-items: center;
-  margin-left: 1em;
+  margin-left: 0.5em;
 }
 
 .label-form {
@@ -87,12 +89,13 @@ body {
 }
 
 .wrapper {
-  height: 50vh;
+  padding: 0em 3em 0 3em;
   display: flex;
   justify-content: center;
   /* Centers horizontally */
   align-items: center;
   /* Centers vertically */
+  border: 1px solid lab(72.25% -35.06 59.05);
 }
 
 /*h1 {
@@ -122,6 +125,17 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.buttonBlog {
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
+  background-color: #1406af81;
+  border: 1px solid #055ffbe3;
+  font-weight: 400;
+  cursor: pointer;
+
 }
 
 /*@media (prefers-color-scheme: light) {
