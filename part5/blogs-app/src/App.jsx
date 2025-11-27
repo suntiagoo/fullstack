@@ -23,7 +23,7 @@ function App() {
       setBlog(result.data)
     }
     blogs()
-  }, [])
+  }, [blog.length])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -43,7 +43,6 @@ function App() {
       setUser(user)
       setMessage(`Welcome ${user.data.name} to blogApp `)
     } catch (exception) {
-
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
     }
@@ -55,12 +54,25 @@ function App() {
       blogFormRef.current.toggleVisibility()
       const result = await blogService.create(newObject)
       setBlog(blog.concat([result.data]))
-      console.log(blog.user)
       setMessage(`a new blog you're NOT gonna need ir! by ${user.data.name} added`)
     } catch (exception) {
       console.log(exception.response)
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
+    }
+
+  }
+
+  const deleteBlog = async (id) => {
+    try {
+      if (window.confirm(`Remove blog You're NOT gonna need it! by ${user.data.name}`)) {
+        blogService.setToken(user.data.token)
+        await blogService.remove(id)
+        setBlog(blog.filter((blog) => blog.id !== id))
+      }
+    } catch (exception) {
+      console.log(exception.response)
+      setMessage(exception.response.data.error)
     }
   }
 
@@ -74,8 +86,8 @@ function App() {
       setMessage(exception.response.data.error)
     }
   }
-
   setTimeout(() => { setMessage(null) }, 5000)
+
 
   const login = () => (
     <Togglable buttonLabel='log in' >
@@ -90,7 +102,7 @@ function App() {
 
   const blogSort = () => {
     const blogSort = blog.sort((a, b) => b.likes - a.likes)
-    return blogSort.map((blog) => { return <Blog key={blog.id} blog={blog} user={user} sumLike={addLike}></Blog> })
+    return blogSort.map((blog) => { return <Blog key={blog.id} blog={blog} user={user} sumLike={addLike} removeBlog={deleteBlog}></Blog> })
   }
 
   const mainPage = () => (
