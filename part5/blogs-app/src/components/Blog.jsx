@@ -1,12 +1,19 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, sumLike }) => {
+
 
     const [visible, setVisible] = useState(false)
+
+
     const showWhenVisible = { display: visible ? '' : 'none' }
 
     const toggleVisibility = () => {
         setVisible(!visible)
+    }
+
+    const addLike = (id) => {
+        sumLike(id, { ...blog, likes: blog.likes + 1 })
     }
 
     return (
@@ -18,22 +25,19 @@ const Blog = ({ blog, user }) => {
                         <article className="blog">
                             <h3 ><strong>{blog.title}</strong></h3>
                             <p >Author: <strong>{blog.author}</strong></p>
-                            <p >Likes: <strong>{blog.likes}</strong> <button onClick={() => { }}>like</button></p>
+                            <p >Likes: <strong>{blog.likes}</strong> <button onClick={() => addLike(blog.id)}>like</button></p>
                             <p > Url: <a href={blog.url} target="_blank">page</a></p>
-                            <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p>  </span>
+                            <p >ID: <strong>{blog.id}</strong></p>
+                            <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p> </span>
                         </article>
                     </div>
                 </article>
-
             </div>
-
-
-
         </>
-
     )
-
 }
+
+// onClick={(blog) => { addLike(blog.id) }}
 
 /*const Blog = ({ blog, user }) => {
     //console.log('el usuario es:', user.data.name)
@@ -80,8 +84,6 @@ const Blog = ({ blog, user }) => {
 
     )
 }*/
-
-
 export default Blog
 
 

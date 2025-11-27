@@ -16,12 +16,10 @@ const create = (newObject) => {
         headers: { Authorization: token },
     }
     return axios.post(baseUrl, newObject, config)
-
 }
 
-const update = async (id, newObject) => {
-    const response = await axios.put(`${baseUrl}/${id}`, newObject)
-    return response.data
+const update = (id, newObject) => {
+    return axios.put(`${baseUrl}/${id}`, newObject)
 }
 
 export default {

@@ -83,7 +83,6 @@ blogRouter.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, a
 
 blogRouter.put('/:id', async (request, response) => {
     const body = request.body
-
     /*const blog = {
         _id: body.id,
         title: body.title,
@@ -92,7 +91,8 @@ blogRouter.put('/:id', async (request, response) => {
         likes: body.likes,
     }*/
 
-    const result = await Blog.findByIdAndUpdate(request.params.id, { $set: { likes: body.likes } }, { new: true })
+    //const result = await Blog.findByIdAndUpdate(request.params.id, { $set: { likes: body.likes } }, { new: true })
+    const result = await Blog.findByIdAndUpdate(request.params.id, { $set: { likes: body.likes } }, { new: true }).populate('user', { username: 1, name: 1 })
     response.status(200).json(result)
 
 })

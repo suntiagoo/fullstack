@@ -47,7 +47,6 @@ function App() {
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
     }
-
   }
 
   const addBlog = async (newObject) => {
@@ -56,11 +55,23 @@ function App() {
       blogFormRef.current.toggleVisibility()
       const result = await blogService.create(newObject)
       setBlog(blog.concat([result.data]))
+      console.log(blog.user)
       setMessage(`a new blog you're NOT gonna need ir! by ${user.data.name} added`)
     } catch (exception) {
       console.log(exception.response)
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
+    }
+  }
+
+  const addLike = async (id, modifyObject) => {
+    try {
+      const result = await blogService.update(id, modifyObject)
+      const aux = blog.filter(blog => blog.id !== id)
+      setBlog(aux.concat([result.data]))
+    } catch (exception) {
+      console.log(exception.response)
+      setMessage(exception.response.data.error)
     }
   }
 
@@ -77,9 +88,17 @@ function App() {
       <NewBlog createBlog={addBlog} ></NewBlog>
     </Togglable>)
 
+  const blogSort = () => {
+    const blogSort = blog.sort((a, b) => b.likes - a.likes)
+    return blogSort.map((blog) => { return <Blog key={blog.id} blog={blog} user={user} sumLike={addLike}></Blog> })
+  }
+
   const mainPage = () => (
-    <MainPageStructure user={user} blogForm={blogForm()}>
-      {blog.map((blog) => { return <Blog key={blog.id} blog={blog} user={user}></Blog> })}
+    < MainPageStructure user={user} >
+      {/*<MainPageStructure user={user} blogForm={blogForm()}>*/}
+      {blogForm()}
+      {/*blog.map((blog) => { return <Blog key={blog.id} blog={blog} user={user} sumLike={addLike}></Blog> })*/}
+      {blogSort()}
     </MainPageStructure>
   )
 
