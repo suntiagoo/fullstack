@@ -27,7 +27,7 @@ describe('<Blog />', () => {
         container = render(<Blog blog={blog} user={user}></Blog>).container
     })
 
-    test('5.13 show the title and author of a blog but hide url and like "in my case only show the title" ', () => {
+    test('5.13 - show the title and author of a blog but hide url and like "in my case only show the title" ', () => {
 
         const title = screen.getByText('how can be freedom')
         const author = screen.getByText('alfredo')
@@ -42,7 +42,7 @@ describe('<Blog />', () => {
         expect(url).not.toBe(<a href="www.test.com" target="_blank"> www.test.com </a>)
     })
 
-    test('5.13 other way to check that component blog show', () => {
+    test('5.13 - other way to check that component blog show', () => {
 
         const div = container.querySelector('.togglableContent')
 
@@ -51,7 +51,7 @@ describe('<Blog />', () => {
         expect(div).toHaveStyle('display: none')
     })
 
-    test('5.14 chek the button that show the blog information', async () => {
+    test('5.14 - check the button that show the blog information', async () => {
 
         //let container = render(<Blog blog={blog} user={user}></Blog>).container
 
@@ -63,5 +63,34 @@ describe('<Blog />', () => {
         const div = container.querySelector('.togglableContent')
         expect(div).not.toHaveStyle('display: none')
     })
+})
 
+test('5.15 - check the number of call hanlde add like ', async () => {
+    const blog = {
+        title: 'how can be freedom',
+        author: 'alfredo',
+        url: 'www.test.com',
+        likes: 5,
+        id: '6903df373cd4d91238abeb61',
+        user: { name: undefined }
+    }
+
+    const customer = {
+        data: {
+            name: 'alfred',
+            username: "root",
+            _id: "69026105966b2ae1953e2850"
+        }
+    }
+
+    const mockHandler = vi.fn()
+    render(<Blog blog={blog} user={customer} sumLike={mockHandler}></Blog>)
+
+    const user = userEvent.setup()
+    const button = screen.getByText('like')
+
+    await user.click(button)
+    await user.click(button)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
 })
