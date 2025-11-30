@@ -12,12 +12,11 @@ blogRouter.get('/', async (request, response) => {
     const blogObject = blogs.map(blog => {
         const blogObject = blog.toObject();
         if (!('likes' in blogObject)) {
-
             blogObject.likes = 0
-            delete blogObject.__v
         }
         blogObject.id = blogObject._id
         delete blogObject._id
+        delete blogObject.__v
         return blogObject
     })
 

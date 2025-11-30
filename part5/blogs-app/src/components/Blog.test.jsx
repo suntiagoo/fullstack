@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -20,15 +21,20 @@ describe('<Blog />', () => {
         }
     }
 
+    let container
+
+    beforeEach(() => {
+        container = render(<Blog blog={blog} user={user}></Blog>).container
+    })
+
     test('5.13 show the title and author of a blog but hide url and like "in my case only show the title" ', () => {
-        render(<Blog blog={blog} user={user}></Blog>)
 
         const title = screen.getByText('how can be freedom')
         const author = screen.getByText('alfredo')
         const likes = screen.getByText(5)
         const url = screen.getByText('www.test.com')
 
-        screen.debug(url)
+        //screen.debug(url)
 
         expect(title).toBeDefined()
         expect(author).not.toBe('alfredo')
@@ -37,12 +43,25 @@ describe('<Blog />', () => {
     })
 
     test('5.13 other way to check that component blog show', () => {
-        let container = render(<Blog blog={blog} user={user}></Blog>).container
+
         const div = container.querySelector('.togglableContent')
 
-        screen.debug(div)
+        //screen.debug(div)
 
         expect(div).toHaveStyle('display: none')
+    })
+
+    test('5.14 chek the button that show the blog information', async () => {
+
+        //let container = render(<Blog blog={blog} user={user}></Blog>).container
+
+        const user = userEvent.setup()
+        const button = screen.getByText('view')
+
+        await user.click(button)
+
+        const div = container.querySelector('.togglableContent')
+        expect(div).not.toHaveStyle('display: none')
     })
 
 })
