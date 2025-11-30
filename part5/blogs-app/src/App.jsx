@@ -23,7 +23,7 @@ function App() {
       setBlog(result.data)
     }
     blogs()
-  }, [blog.length])
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -52,8 +52,9 @@ function App() {
     try {
       blogService.setToken(user.data.token)
       blogFormRef.current.toggleVisibility()
-      const result = await blogService.create(newObject)
-      setBlog(blog.concat([result.data]))
+      await blogService.create(newObject)
+      const result = await blogService.getAll()
+      setBlog(result.data)
       setMessage(`a new blog you're NOT gonna need ir! by ${user.data.name} added`)
     } catch (exception) {
       console.log(exception.response)

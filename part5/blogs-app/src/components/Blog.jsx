@@ -2,9 +2,7 @@ import { useState } from 'react'
 
 const Blog = ({ blog, user, sumLike, removeBlog }) => {
 
-
     const [visible, setVisible] = useState(false)
-
 
     const showWhenVisible = { display: visible ? '' : 'none' }
 
@@ -19,19 +17,18 @@ const Blog = ({ blog, user, sumLike, removeBlog }) => {
     const remove = (id) => {
         removeBlog(id)
     }
-
     return (
         <>
             <div >
                 <article className="userBlogs">
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}> <p ><strong >{blog.title}</strong></p> <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button></div>
-                    <div style={showWhenVisible}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}><p><strong>{blog.title}</strong></p> <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button></div>
+                    <div style={showWhenVisible} className="togglableContent">
                         <article className="blog">
-                            <h3 ><strong>{blog.title}</strong></h3>
-                            <p >Author: <strong>{blog.author}</strong></p>
-                            <p >Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
-                            <p > Url: <a href={blog.url} target="_blank">page</a></p>
-                            <p >ID: <strong>{blog.id}</strong></p>
+                            <h3><strong >{`${blog.title}.`}</strong></h3>
+                            <p>Author: <strong>{blog.author}</strong></p>
+                            <p>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
+                            <p> Url: <a href={blog.url} target="_blank">{blog.url}</a></p>
+                            <p>ID: <strong>{blog.id}</strong></p>
                             <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p> </span>
                             {user.data.name === blog.user.name && <button onClick={() => remove(blog.id)}>remove</button>}
                         </article>
