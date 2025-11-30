@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import NewBlog from './NewBlog'
 
 describe('<Blog />', () => {
 
@@ -65,6 +66,7 @@ describe('<Blog />', () => {
     })
 })
 
+
 test('5.15 - check the number of call hanlde add like ', async () => {
     const blog = {
         title: 'how can be freedom',
@@ -93,4 +95,32 @@ test('5.15 - check the number of call hanlde add like ', async () => {
     await user.click(button)
 
     expect(mockHandler.mock.calls).toHaveLength(2)
+})
+
+
+test('5.16 - check that the information of form is correct', async () => {
+    const addBlog = vi.fn()
+
+    const user = userEvent.setup()
+
+    render(<NewBlog createBlog={addBlog} />)
+
+    const title = screen.getByPlaceholderText('e.g. design patterns')
+    const author = screen.getByPlaceholderText('Alfred Muller')
+    const url = screen.getByPlaceholderText('www.blog.com')
+
+    const button = screen.getByText('Create')
+
+    await user.type(title, 'the developer work heard')
+    await user.type(author, 'Julio Gomez')
+    await user.type(url, 'www.developer.com')
+
+    await user.click(button)
+
+    expect(addBlog.mock.calls).toHaveLength(1)
+    expect(addBlog.mock.calls[0][0].title).toBe('the developer work heard')
+    expect(addBlog.mock.calls[0][0].author).toBe('Julio Gomez')
+    expect(addBlog.mock.calls[0][0].url).toBe('www.developer.com')
+
+    expect(addBlog.mock.calls[0][0]).toStrictEqual({ title: 'the developer work heard', author: 'Julio Gomez', url: 'www.developer.com', likes: 0 })
 })
