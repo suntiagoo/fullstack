@@ -90,10 +90,13 @@ function App() {
   setTimeout(() => { setMessage(null) }, 5000)
 
 
-  const login = () => (
-    <Togglable buttonLabel='log in' >
+  const login = () => (<>
+    <h3>Welcome to blog App</h3>
+    <Togglable buttonLabel='Access' >
       <Login onSubmit={handleLogin}></Login>
     </Togglable>
+  </>
+
   )
 
   const blogForm = () => (

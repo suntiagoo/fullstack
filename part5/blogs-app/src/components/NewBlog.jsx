@@ -25,28 +25,24 @@ const NewBlog = ({ createBlog }) => {
 
     return (
         <>
-            <div className="wrapper">
-                <form onSubmit={headleNewBlog}>
+            <form onSubmit={headleNewBlog}>
 
-                    <label className="label-form" >
-                        Title: <input className="input-form" id="title" value={newBlog.title} onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })} minLength={3} placeholder='e.g. design patterns' ></input>
-                    </label>
+                <label className="label-form" >
+                    Title: <input className="input-form" id="title" value={newBlog.title} onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })} minLength={3} placeholder='e.g. design patterns' ></input>
+                </label>
 
-                    <label className="label-form">
-                        Author: <input className="input-form" id="author" type="text" value={newBlog.author} onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })} placeholder='Alfred Muller'  ></input>
-                    </label>
+                <label className="label-form">
+                    Author: <input className="input-form" id="author" type="text" value={newBlog.author} onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })} placeholder='Alfred Muller'  ></input>
+                </label>
 
-                    <label className="label-form">
-                        Url: < input className="input-form" id="url" type="text" value={newBlog.url} onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })} minLength={5} placeholder='www.blog.com' ></input>
-                    </label>
+                <label className="label-form">
+                    Url: < input className="input-form" id="url" type="text" value={newBlog.url} onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })} minLength={5} placeholder='www.blog.com' ></input>
+                </label>
 
-                    <div>
-                        <button type="submit">Create</button>
-                    </div>
-                </form >
-
-            </div>
-
+                <div>
+                    <button type="submit">Create</button>
+                </div>
+            </form >
         </>
 
 
