@@ -41,7 +41,7 @@ function App() {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.data.token)
       setUser(user)
-      setMessage(`Welcome ${user.data.name} to blogApp `)
+      setMessage(`Welcome ${user.data.name} to blogApp`)
     } catch (exception) {
       setMessage(exception.response.data.error)
       alert(exception.response.data.error)
