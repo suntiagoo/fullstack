@@ -62,5 +62,12 @@ describe('Blog app', () => {
             await expect(page.getByText('Author: Sun Shemes')).toBeVisible()
             await expect(page.getByText('Url: wwww.test.com')).toBeVisible()
         })
+
+        test('the blog is editing', async ({ page }) => {
+            await page.getByRole('button', { name: 'new blog' }).click()
+            await expect(page.getByTestId('title')).toBeEditable()
+            await expect(page.getByTestId('author')).toBeEditable()
+            await expect(page.getByTestId('url')).toBeEditable()
+        })
     })
 })
