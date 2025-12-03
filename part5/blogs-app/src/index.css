@@ -38,8 +38,10 @@
 
 }
 
-.blog>p {
+.blog>ul {
+  list-style: none;
   font-size: 1.2rem;
+  padding: 0px;
   font-family: monospace;
   color: rgb(240, 237, 234);
   text-align: left;

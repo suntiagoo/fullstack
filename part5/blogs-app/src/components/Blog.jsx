@@ -20,17 +20,25 @@ const Blog = ({ blog, user, sumLike, removeBlog }) => {
     return (
         <>
             <div >
-                <article className="userBlogs">
+                <article className="userBlogs" data-testid="articleContainer">
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}><p><strong>{blog.title}</strong></p> <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button></div>
                     <div style={showWhenVisible} className="togglableContent">
                         <article className="blog">
                             <h3><strong >{`${blog.title}.`}</strong></h3>
-                            <p>Author: <strong>{blog.author}</strong></p>
+                            <ul>
+                                <li>Author: <strong>{blog.author}</strong></li>
+                                <li>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></li>
+                                <li>Url: <a href={blog.url} target="_blank">{blog.url}</a></li>
+                                <li>ID: <strong>{blog.id}</strong></li>
+                            </ul>
+                            {user.data.name === blog.user.name && <button onClick={() => remove(blog.id)}>remove</button>}
+                            <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p> </span>
+                            {/*<p>Author: <strong>{blog.author}</strong></p>
                             <p>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
                             <p> Url: <a href={blog.url} target="_blank">{blog.url}</a></p>
-                            <p>ID: <strong>{blog.id}</strong></p>
-                            <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p> </span>
-                            {user.data.name === blog.user.name && <button onClick={() => remove(blog.id)}>remove</button>}
+                            <p>ID: <strong>{blog.id}</strong></p>*/}
+
+
                         </article>
                     </div>
                 </article>
