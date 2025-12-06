@@ -48,6 +48,18 @@ function App() {
     }
   }
 
+  const handlelogOut = async () => {
+    try {
+      window.localStorage.removeItem('loggedBlogappUser')
+      console.log(window.localStorage.getItem('loggedBlogappUser'))
+      setUser(window.localStorage.removeItem('loggedBlogappUser'))
+    } catch (exception) {
+      console.log(exception.response)
+      setMessage(exception.response.data.error)
+      alert(exception.response.data.error)
+    }
+  }
+
   const addBlog = async (newObject) => {
     try {
       blogService.setToken(user.data.token)
@@ -110,7 +122,7 @@ function App() {
   }
 
   const mainPage = () => (
-    < MainPageStructure user={user} >
+    < MainPageStructure user={user} handleLogOut={handlelogOut} >
       {/*<MainPageStructure user={user} blogForm={blogForm()}>*/}
       {blogForm()}
       {/*blog.map((blog) => { return <Blog key={blog.id} blog={blog} user={user} sumLike={addLike}></Blog> })*/}

@@ -23,21 +23,23 @@ const Blog = ({ blog, user, sumLike, removeBlog }) => {
                 <article className="userBlogs" data-testid="articleContainer">
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}><p><strong>{blog.title}</strong></p> <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button></div>
                     <div style={showWhenVisible} className="togglableContent">
-                        <article className="blog">
-                            <h3><strong >{`${blog.title}.`}</strong></h3>
-                            <ul>
-                                <li>Author: <strong>{blog.author}</strong></li>
+                        <article className="blog" data-testid="articleChild" >
+                            <h3><strong >{`${blog.title}`}</strong></h3>
+
+                            <p>Author: <strong>{blog.author}</strong></p>
+                            <p>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
+                            <p> Url: <a href={blog.url} target="_blank">{blog.url}</a></p>
+                            <p>ID: <strong>{blog.id}</strong></p>
+
+                            {/*<ul>
+                                <li data-testid='blogtitle'>Author: <strong>{blog.author}</strong></li>
                                 <li>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></li>
                                 <li>Url: <a href={blog.url} target="_blank">{blog.url}</a></li>
                                 <li>ID: <strong>{blog.id}</strong></li>
-                            </ul>
-                            {user.data.name === blog.user.name && <button onClick={() => remove(blog.id)}>remove</button>}
-                            <span> <p>User: {blog.user.name === undefined ? user.data.name : blog.user.name}</p> </span>
-                            {/*<p>Author: <strong>{blog.author}</strong></p>
-                            <p>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
-                            <p> Url: <a href={blog.url} target="_blank">{blog.url}</a></p>
-                            <p>ID: <strong>{blog.id}</strong></p>*/}
+                            </ul>*/}
 
+                            {user.data.username === blog.user.username && <button onClick={() => remove(blog.id)}>remove</button>}
+                            <span> <p>User: {blog.user.username === undefined ? user.data.username : blog.user.username}</p> </span>
 
                         </article>
                     </div>
