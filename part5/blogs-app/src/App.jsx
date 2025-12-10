@@ -23,7 +23,7 @@ function App() {
       setBlog(result.data)
     }
     blogs()
-  }, [])
+  }, [blog.length])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -91,9 +91,12 @@ function App() {
 
   const addLike = async (id, modifyObject) => {
     try {
-      const result = await blogService.update(id, modifyObject)
-      const aux = blog.filter(blog => blog.id !== id)
-      setBlog(aux.concat([result.data]))
+      //const result = await blogService.update(id, modifyObject)
+      //const aux = blog.filter(blog => blog.id !== id)
+      //setBlog(aux.concat([result.data]))
+      await blogService.update(id, modifyObject)
+      const aux = await blogService.getAll()
+      setBlog(aux.data)
     } catch (exception) {
       console.log(exception.response)
       setMessage(exception.response.data.error)

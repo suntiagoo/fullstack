@@ -24,10 +24,10 @@ const Blog = ({ blog, user, sumLike, removeBlog }) => {
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}><p><strong>{blog.title}</strong></p> <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button></div>
                     <div style={showWhenVisible} className="togglableContent">
                         <article className="blog" data-testid="articleChild" >
-                            <h3><strong >{`${blog.title}`}</strong></h3>
+                            {/*<h3><strong >{`${blog.title}`}</strong></h3>*/}
 
                             <p>Author: <strong>{blog.author}</strong></p>
-                            <p>Likes: <strong>{blog.likes}</strong> <button onClick={() => handleLike(blog.id)}>like</button></p>
+                            <p>Likes: <label><strong data-tesid="likes">{blog.likes}</strong></label> <button onClick={() => handleLike(blog.id)}>like</button></p>
                             <p> Url: <a href={blog.url} target="_blank">{blog.url}</a></p>
                             <p>ID: <strong>{blog.id}</strong></p>
 

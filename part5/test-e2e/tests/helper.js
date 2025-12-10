@@ -14,8 +14,11 @@ const createBlog = async (page, title, author, url, user) => {
     await page.getByTestId('author').fill(author)
     await page.getByTestId('url').fill(url)
     await page.getByRole('button', { name: 'create' }).click()
-    const viewButton = page.getByTestId('articleContainer').filter({ hasText: `User: ${user}` }).and(page.getByTestId('articleContainer').filter({ hasText: title }))
+    const viewButton = page.getByTestId('articleContainer').filter({ hasText: `User: ${user}` }).and(page.getByTestId('articleContainer').filter({ hasText: author }))
     await viewButton.getByRole('button', { name: 'view' }).click()
+    await page.getByText(title).waitFor()
+    await page.getByText(author).waitFor()
+    await page.getByText(url).waitFor()
 
 }
 
