@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-//import { createStore } from 'redux'
+import { createStore } from 'redux'
 import './index.css'
 import App from './App.jsx'
-//import { counterReducer } from './reducers/counterReducer.js'
+import reducer from './reducers/counterReducer.js'
 
 /*createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -11,14 +11,14 @@ import App from './App.jsx'
   </StrictMode>,
 )*/
 
-//const store = createStore(counterReducer)
+const store = createStore(reducer.counterReducer)
 const root = createRoot(document.getElementById('root'))
 const renderApp = () => {
   root.render(<StrictMode>
-    <App />
+    <App store={store} />
   </StrictMode>)
 }
 
 renderApp()
-//store.subscribe(renderApp)
+store.subscribe(renderApp)
 

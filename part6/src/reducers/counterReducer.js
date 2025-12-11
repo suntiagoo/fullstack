@@ -1,7 +1,10 @@
 const initialStateCounter = {
     good: 0,
     ok: 0,
-    bad: 0
+    bad: 0,
+    total: 0,
+    average: 0,
+    positive: 0
 }
 const counterReducer = (state = initialStateCounter, action) => {
     console.log(action)
@@ -13,11 +16,11 @@ const counterReducer = (state = initialStateCounter, action) => {
         case 'BAD':
             return { ...state, bad: state.ok + 1 }
         case 'TOTAL':
-            return (state.good + state.ok + state.bad)
+            return { ...state, total: state.good + state.ok + state.bad }
         case 'AVERAGE':
-            return ((state.good + (state.bad * - 1)) / (state.good + state.ok + state.bad))
+            return ({ ...state, average: (state.good + (state.bad * - 1)) / (state.good + state.ok + state.bad) })
         case 'POSITIVE':
-            return ((state.good * 100) / (state.good + state.ok + state.bad))
+            return ({ ...state, positive: (state.good * 100) / (state.good + state.ok + state.bad) })
         default: return state
     }
 }
