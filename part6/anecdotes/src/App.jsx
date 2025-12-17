@@ -15,8 +15,8 @@ const Anecdote = ({ anecdotes, handleSumVote }) => {
 
 const Anecdotes = () => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state)
-
+  let anecdotes = useSelector(state => state)
+  anecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
   const sumVote = (id, event) => {
     event.preventDefault()
     dispatch(increaseVote(id))
@@ -27,7 +27,8 @@ const Anecdotes = () => {
       {anecdotes && anecdotes.map((anecdote) =>
         <Anecdote key={anecdote.id} anecdotes={anecdote} handleSumVote={(event) => sumVote(anecdote.id, event)} />
 
-      )}
+      )
+      }
     </ul>
   )
 }

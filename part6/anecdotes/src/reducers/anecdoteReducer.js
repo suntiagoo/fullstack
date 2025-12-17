@@ -17,7 +17,9 @@ const asObject = anecdote => {
     }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+let initialState = anecdotesAtStart.map(asObject)
+initialState = initialState.sort((a, b) => a.votes - b.votes)
+console.log('initial value', initialState)
 
 export const increaseVote = (id) => {
     return {
@@ -38,8 +40,6 @@ export const addNote = (content) => {
         }
     }
 }
-
-
 
 const reducer = (state = initialState, action) => {
     console.log('state now: ', state)

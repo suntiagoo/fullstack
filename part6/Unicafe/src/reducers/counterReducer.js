@@ -25,5 +25,4 @@ const counterReducer = (state = initialStateCounter, action) => {
     }
 }
 
-
 export default { counterReducer } 
