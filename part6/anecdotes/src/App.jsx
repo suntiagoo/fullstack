@@ -1,37 +1,9 @@
 import './App.css'
-import { increaseVote } from './reducers/anecdoteReducer'
-import { useSelector, useDispatch } from 'react-redux'
 import NoteForm from './components/NoteForm'
+import AnecdoteList from './components/AnecdoteList'
 
 const Title = ({ title }) => <h2>{title}</h2>
 
-const Anecdote = ({ anecdotes, handleSumVote }) => {
-  return (<>
-    <li > {anecdotes.content}</li>
-    <p>{`has ${anecdotes.votes}`} <button onClick={handleSumVote} >vote</button> </p>
-  </>)
-
-}
-
-const Anecdotes = () => {
-  const dispatch = useDispatch()
-  let anecdotes = useSelector(state => state)
-  anecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
-  const sumVote = (id, event) => {
-    event.preventDefault()
-    dispatch(increaseVote(id))
-  }
-
-  return (
-    <ul>
-      {anecdotes && anecdotes.map((anecdote) =>
-        <Anecdote key={anecdote.id} anecdotes={anecdote} handleSumVote={(event) => sumVote(anecdote.id, event)} />
-
-      )
-      }
-    </ul>
-  )
-}
 
 const App = () => {
   /*const anecdotes = [
@@ -55,8 +27,8 @@ const App = () => {
     <div>
       <NoteForm />
       <Title title={'Anecdote of the day'} />
-      <Anecdotes />
-      <Title title={'Anecdote with most vote'} />
+      <AnecdoteList />
+
 
     </div>
   )
