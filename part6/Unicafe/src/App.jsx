@@ -38,7 +38,8 @@ const Statistics = ({ goodValue, neutralValue, badValue, total, average, positiv
 
 const App = ({ store }) => {
 
-  const handleStatistic = () => {
+  const handleStatistic = (event) => {
+    event.preventDefault()
     store.dispatch({ type: 'TOTAL' })
     store.dispatch({ type: 'AVERAGE' })
     store.dispatch({ type: 'POSITIVE' })

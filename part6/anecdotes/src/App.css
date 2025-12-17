@@ -1,0 +1,25 @@
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.2em 2.2em;
+  margin-right: 1%;
+  margin-top: 1em;
+  font-size: 1em;
+  font-weight: 200;
+  font-family: inherit;
+  color: rgb(41, 170, 127);
+  background-color: #080808;
+  cursor: pointer;
+  transition: border-color 0.25s;
+
+}
+
+p {
+  padding: 0%;
+  margin: 0% 0% 1.5em;
+}
+
+button:hover {
+  border-color: #64ffea;
+  color: aquamarine;
+}
