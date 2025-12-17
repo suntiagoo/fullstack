@@ -1,7 +1,7 @@
 import './App.css'
-import { addVote } from './reducers/anecdoteReducer'
+import { increaseVote } from './reducers/anecdoteReducer'
 import { useSelector, useDispatch } from 'react-redux'
-
+import NoteForm from './components/NoteForm'
 
 const Title = ({ title }) => <h2>{title}</h2>
 
@@ -19,7 +19,7 @@ const Anecdotes = () => {
 
   const sumVote = (id, event) => {
     event.preventDefault()
-    dispatch(addVote(id))
+    dispatch(increaseVote(id))
   }
 
   return (
@@ -52,6 +52,7 @@ const App = () => {
 
   return (
     <div>
+      <NoteForm />
       <Title title={'Anecdote of the day'} />
       <Anecdotes />
       <Title title={'Anecdote with most vote'} />
