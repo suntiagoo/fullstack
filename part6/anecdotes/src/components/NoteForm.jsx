@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { addNote } from '../reducers/anecdoteReducer'
+import { createNote } from '../reducers/anecdoteReducer'
 
 const NoteForm = () => {
 
@@ -9,7 +9,7 @@ const NoteForm = () => {
         event.preventDefault()
         const content = event.target.note.value
         event.target.note.value = ''
-        dispatch(addNote(content))
+        dispatch(createNote(content))
 
     }
 
