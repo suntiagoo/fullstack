@@ -14,10 +14,13 @@ const NoteForm = () => {
     }
 
     return (
-        <form onSubmit={sumNote}>
-            <input name='note' placeholder='e.g. write your new blog' />
-            <button type='submit'>Add</button>
-        </form>
+        <div style={{ marginBottom: '2em' }}>
+            <form onSubmit={sumNote}>
+                <input name='note' placeholder='e.g. write your new blog' />
+                <button type='submit'>Add</button>
+            </form>
+        </div>
+
     )
 
 }

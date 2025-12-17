@@ -10,9 +10,17 @@ const Anecdote = ({ anecdotes, handleSumVote }) => {
 }
 
 const AnecdoteList = () => {
+
     const dispatch = useDispatch()
-    let anecdotes = useSelector(state => state)
+
+    let anecdotes = useSelector(({ notes, filter }) => {
+        return notes.filter((note) => {
+            return filter === '' ? note : note.content.toLowerCase().includes(filter)
+        })
+    })
+
     anecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
+
     const sumVote = (id, event) => {
         event.preventDefault()
         dispatch(increaseVote(id))

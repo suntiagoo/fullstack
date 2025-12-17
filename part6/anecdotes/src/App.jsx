@@ -1,6 +1,7 @@
 import './App.css'
 import NoteForm from './components/NoteForm'
 import AnecdoteList from './components/AnecdoteList'
+import Filter from './components/Filter'
 
 const Title = ({ title }) => <h2>{title}</h2>
 
@@ -25,8 +26,10 @@ const App = () => {
 
   return (
     <div>
-      <NoteForm />
       <Title title={'Anecdote of the day'} />
+      <NoteForm />
+      <Filter />
+
       <AnecdoteList />
 
 
