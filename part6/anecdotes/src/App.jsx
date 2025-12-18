@@ -2,9 +2,9 @@ import './App.css'
 import NoteForm from './components/NoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 
 const Title = ({ title }) => <h2>{title}</h2>
-
 
 const App = () => {
   /*const anecdotes = [
@@ -27,11 +27,10 @@ const App = () => {
   return (
     <div>
       <Title title={'Anecdote of the day'} />
+      <Notification />
       <NoteForm />
       <Filter />
-
       <AnecdoteList />
-
 
     </div>
   )

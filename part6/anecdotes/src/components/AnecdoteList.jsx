@@ -1,5 +1,7 @@
 import { increaseVote } from '../reducers/anecdoteReducer'
+import { showNotification } from '../reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
+
 
 const Anecdote = ({ anecdotes, handleSumVote }) => {
     return (<>
@@ -20,10 +22,19 @@ const AnecdoteList = () => {
     })
 
     anecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
-
+    console.log(anecdotes)
     const sumVote = (id, event) => {
-        event.preventDefault()
-        dispatch(increaseVote(id))
+        try {
+            event.preventDefault()
+            dispatch(increaseVote(id))
+            dispatch(showNotification('the like increase succefull'))
+            setTimeout(() => { dispatch(showNotification('')) }, 5000)
+
+        } catch (exception) {
+            dispatch(showNotification(`was a error ${exception}`))
+            setTimeout(() => { dispatch(showNotification('')) }, 5000)
+        }
+
     }
 
     return (

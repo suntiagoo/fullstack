@@ -27,7 +27,8 @@ const noteReducer = createSlice({
     initialState,
     reducers: {
         createNote(state, action) {
-            return [...state, action.payload]
+
+            return [...state, { content: action.payload, id: getId(), votes: 0 }]
         },
         increaseVote(state, action) {
             const id = action.payload
