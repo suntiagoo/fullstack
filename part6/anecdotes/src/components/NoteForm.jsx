@@ -1,16 +1,19 @@
 import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/anecdoteReducer'
 import { showNotification } from '../reducers/notificationReducer'
+import noteService from '../services/notes'
 
 const NoteForm = () => {
 
     const dispatch = useDispatch()
 
-    const addNote = (event) => {
+    const addNote = async (event) => {
         try {
             event.preventDefault()
             const content = event.target.note.value
-            dispatch(createNote(content))
+            const newNote = await noteService.createNote(content)
+            console.log(content)
+            dispatch(createNote(newNote))
             dispatch(showNotification('The notification was created successfully'))
             setTimeout(() => { dispatch(showNotification('')) }, 5000)
             event.target.note.value = ''

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const anecdotesAtStart = [
+/*const anecdotesAtStart = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
     'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
@@ -14,25 +14,28 @@ const getId = () => (100000 * Math.random()).toFixed(0)
 const asObject = anecdote => {
     return {
         content: anecdote,
-        id: getId(),
+        //id: getId(),
         votes: 0
     }
 }
 
 const initialState = anecdotesAtStart.map(asObject)
+*/
 
 
 const noteReducer = createSlice({
     name: 'notes',
-    initialState,
+    initialState: [],
     reducers: {
         createNote(state, action) {
-
-            return [...state, { content: action.payload, id: getId(), votes: 0 }]
+            return [...state, { content: action.payload.content, votes: action.payload.votes, id: action.payload.id }]
         },
         increaseVote(state, action) {
             const id = action.payload
-            state = state.map(anecdote => {
+            const anecdote = state.find(anecdote => anecdote.id === id)
+            state = state.filter(anecdote => anecdote.id !== id)
+            return [...state, { ...anecdote, votes: anecdote.votes + 1 }]
+            /*state = state.map(anecdote => {
                 if (Number(anecdote.id) === Number(id)) {
                     return { ...anecdote, votes: anecdote.votes + 1 }
                 }
@@ -41,57 +44,13 @@ const noteReducer = createSlice({
             )
             //console.log(state)
             return state
-
+*/
         },
+        setNotes(state, action) {
+            return action.payload
+        }
     }
 })
 
-export const { createNote, increaseVote } = noteReducer.actions
+export const { createNote, increaseVote, setNotes } = noteReducer.actions
 export default noteReducer.reducer
-
-/*export const increaseVote = (id) => {
-    return {
-        type: 'INCREASE_VOTE',
-        payload: {
-            id: id
-        }
-    }
-}
-
-export const addNote = (content) => {
-    return {
-        type: 'ADD_NOTE',
-        payload: {
-            content: content,
-            id: getId(),
-            votes: 0
-        }
-    }
-}
-
-const reducer = (state = initialState, action) => {
-    //console.log('state now: ', state)
-    //console.log('action', action)
-    switch (action.type) {
-        case 'INCREASE_VOTE': {
-            const id = action.payload.id
-            state = state.map(anecdote => {
-                if (Number(anecdote.id) === Number(id)) {
-                    return { ...anecdote, votes: anecdote.votes + 1 }
-                }
-                return anecdote
-            }
-            )
-            //console.log(state)
-            return state
-        }
-        case 'ADD_NOTE': {
-            return [...state, action.payload]
-        }
-
-    }
-    //console.log(state)
-    return state
-}
-
-export default reducer*/
