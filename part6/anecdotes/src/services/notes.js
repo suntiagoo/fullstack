@@ -34,7 +34,6 @@ const updateNote = async (id, newObject) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newObject),
     }
-    console.log('new object', newObject)
     const response = await fetch(`${baseUrl}/${id}`, options)
 
     if (!response.ok) {

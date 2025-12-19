@@ -7,8 +7,7 @@ import Notification from './components/Notification'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { setNotes } from './reducers/anecdoteReducer'
-import noteService from './services/notes'
+import { initializeNote } from './reducers/anecdoteReducer'
 
 const Title = ({ title }) => <h2>{title}</h2>
 
@@ -17,7 +16,8 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    noteService.getAll().then(notes => dispatch(setNotes(notes)))
+    //noteService.getAll().then(notes => dispatch(setNotes(notes)))
+    dispatch(initializeNote())
   }, [dispatch])
 
 

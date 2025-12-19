@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import noteService from '../services/notes'
 
 /*const anecdotesAtStart = [
     'If it hurts, do it more often',
@@ -31,20 +32,9 @@ const noteReducer = createSlice({
             return [...state, { content: action.payload.content, votes: action.payload.votes, id: action.payload.id }]
         },
         increaseVote(state, action) {
-            const id = action.payload
-            const anecdote = state.find(anecdote => anecdote.id === id)
-            state = state.filter(anecdote => anecdote.id !== id)
-            return [...state, { ...anecdote, votes: anecdote.votes + 1 }]
-            /*state = state.map(anecdote => {
-                if (Number(anecdote.id) === Number(id)) {
-                    return { ...anecdote, votes: anecdote.votes + 1 }
-                }
-                return anecdote
-            }
-            )
-            //console.log(state)
-            return state
-*/
+            const id = action.payload.id
+            state = state.filter((anecdote) => anecdote.id !== id)
+            return [...state, action.payload]
         },
         setNotes(state, action) {
             return action.payload
@@ -52,5 +42,28 @@ const noteReducer = createSlice({
     }
 })
 
-export const { createNote, increaseVote, setNotes } = noteReducer.actions
+const { createNote, setNotes, increaseVote } = noteReducer.actions
+
+export const initializeNote = () => {
+    return async (dispatch) => {
+        const notes = await noteService.getAll()
+        dispatch(setNotes(notes))
+    }
+}
+
+export const appendNote = (content) => {
+    return async (dispatch) => {
+        const newNote = await noteService.createNote(content)
+        dispatch(createNote(newNote))
+    }
+}
+
+export const editNote = (id, newObject) => {
+    return async (dispatch) => {
+        const modifyObject = await noteService.updateNote(id, newObject)
+        //console.log('objeto modificado', modifyObject)
+        dispatch(increaseVote(modifyObject))
+
+    }
+}
 export default noteReducer.reducer
