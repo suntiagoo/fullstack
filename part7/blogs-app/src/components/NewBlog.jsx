@@ -1,0 +1,54 @@
+import { useState } from 'react'
+//import blogService from "../services/blogService"
+
+const NewBlog = ({ createBlog }) => {
+    const [newBlog, setNewBlog] = useState({
+        title: '',
+        author: '',
+        url: '',
+        likes: 0
+    })
+
+    const headleNewBlog = (event) => {
+        console.log(event)
+        event.preventDefault()
+        createBlog(newBlog)
+        setNewBlog({
+            title: '',
+            author: '',
+            url: '',
+            likes: 0
+        })
+        //blogService.setToken(user.data.token)
+        //const result = await blogService.create(newBlog)
+        //setBlog(blog.concat([result.data]))
+    }
+
+    return (
+        <>
+            <form onSubmit={headleNewBlog}>
+
+                <label className="label-form" >
+                    Title: <input className="input-form" id="title" data-testid="title" value={newBlog.title} onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })} minLength={3} placeholder='e.g. design patterns' ></input>
+                </label>
+
+                <label className="label-form">
+                    Author: <input className="input-form" id="author" data-testid="author" type="text" value={newBlog.author} onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })} placeholder='Alfred Muller'  ></input>
+                </label>
+
+                <label className="label-form">
+                    Url: < input className="input-form" id="url" data-testid="url" type="text" value={newBlog.url} onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })} minLength={5} placeholder='www.blog.com' ></input>
+                </label>
+
+                <div>
+                    <button type="submit">create</button>
+                </div>
+            </form >
+        </>
+
+
+    )
+
+}
+
+export default NewBlog
