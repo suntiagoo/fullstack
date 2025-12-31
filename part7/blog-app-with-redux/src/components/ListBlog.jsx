@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { increaseLike, removeBlog } from "../reducers/blogReducer";
 import fetchBlog from "../services/fetchBlog";
 
-const ListBlog = ({ user, removeBlog }) => {
+const ListBlog = ({ user }) => {
   const { blog } = useSelector((state) => state);
   const blogSort = blog.toSorted((a, b) => b.likes - a.likes);
 
@@ -28,11 +28,9 @@ const Blog = ({ blog, user }) => {
 
   const remove = (id) => {
     if (
-      window.confirm(
-        `Remove blog You're NOT gonna need it! by ${user.data.name}`,
-      )
+      window.confirm(`Remove blog You're NOT gonna need it! by ${user.name}`)
     ) {
-      fetchBlog.setToken(user.data.token);
+      fetchBlog.setToken(user.token);
       dispatch(removeBlog(id));
     }
   };
@@ -70,9 +68,9 @@ const Blog = ({ blog, user }) => {
               <p>
                 ID: <strong>{blog.id}</strong>
               </p>
-              {(user.data.id === blog.user?._id ||
-                user.data.id === blog.user ||
-                user.data.id === blog.user?.id) && (
+              {(user.id === blog.user?._id ||
+                user.id === blog.user ||
+                user.id === blog.user?.id) && (
                 <button onClick={() => remove(blog.id)}>remove</button>
               )}
               <span>

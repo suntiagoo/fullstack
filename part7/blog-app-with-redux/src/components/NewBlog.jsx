@@ -9,7 +9,7 @@ const NewBlog = ({ hidenForm, user }) => {
 
   const handleNewBlog = (event) => {
     event.preventDefault();
-    fetchBlog.setToken(user.data.token);
+    fetchBlog.setToken(user.token);
 
     const value = {
       title: event.target.title.value,
