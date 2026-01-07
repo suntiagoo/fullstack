@@ -1,0 +1,40 @@
+.containerNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 5%;
+}
+
+.partOfNav {
+  display: inline;
+  text-align: center;
+  align-items: center;
+  margin: 0;
+}
+
+.logOutButton {
+  margin: 0;
+  padding: 5px;
+  width: 90px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.5em 1em;
+  margin-bottom: 1em;
+  font-size: 0.8em;
+  font-weight: 800;
+  font-family: inherit;
+  background-color: #5ab3eb;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.link {
+  padding-right: 5px;
+  font-weight: 500;
+  color: lab(100% 0.01 -0.01);
+  text-decoration: inherit;
+}
+
+.link:hover {
+  color: #42b2e5;
+}

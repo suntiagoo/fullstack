@@ -1,39 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
-import fetchBlog from "../services/fetchBlog";
-import fetchLogin from "../services/fetchLogin";
+import { createSlice } from '@reduxjs/toolkit';
+import fetchUser from '../services/fetchUser';
 
 const userSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState: null,
   reducers: {
-    setUser(state, action) {
-      const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-
-      if (loggedUserJSON) {
-        return JSON.parse(loggedUserJSON);
-      }
-
+    getAll(state, action) {
       return action.payload;
     },
   },
 });
 
-const { setUser } = userSlice.actions;
+const { getAll } = userSlice.actions;
 
-export const loggin = (credentials) => {
+export const getUsers = () => {
   return async (dispatch) => {
     try {
-      const user = await fetchLogin.login(credentials);
-      dispatch(setUser(user));
-      dispatch({
-        type: "message/setMessage",
-        payload: ` welcome ${user} to blog app `,
-      });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      fetchBlog.setToken(user.token);
+      const users = await fetchUser.getAll();
+      dispatch(getAll(users));
     } catch (exception) {
-      dispatch({ type: "message/setMessage", payload: `${exception}` });
-      alert(` la ecepcion${exception}`);
+      dispatch({ type: 'message/setMessage', payload: `${exception}` });
     }
   };
 };

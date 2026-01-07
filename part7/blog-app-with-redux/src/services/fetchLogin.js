@@ -1,9 +1,9 @@
-const baseUrl = "/api/login";
+const baseUrl = '/api/login';
 
 const login = async (credentials) => {
   const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   };
 

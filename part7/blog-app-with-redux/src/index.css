@@ -13,14 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-.userBlogs {
+/*.userBlogs {
   margin: 1em;
   padding: 0.3rem;
   background-color: #444f60;
 }
 
-.userBlogs>.blog {
+.userBlogs > .blog {
   margin: 0.5rem;
   padding: 0.5rem;
   font-size: 1.2rem;
@@ -31,14 +30,13 @@
   display: flexbox;
 }
 
-.blog>h3 {
+.blog > h3 {
   color: rgb(43, 53, 133);
   font-family: monospace;
   font-size: 1.5rem;
-
 }
 
-.blog>p {
+.blog > p {
   list-style: none;
   font-size: 1.2rem;
   padding: 0px;
@@ -62,14 +60,10 @@ a:hover {
   font-weight: 5em;
   font-size: 2em;
   font-style: italic;
-
-
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -86,28 +80,16 @@ body {
   display: flex;
   margin: 0.2em auto;
 
-  padding-bottom: .5em;
-
+  padding-bottom: 0.5em;
 }
-
-.wrapper {
-  padding: 0em 3em 0 3em;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  /* Centers horizontally */
-  align-items: center;
-  /* Centers vertically */
-  border: 1px solid lab(72.25% -35.06 59.05);
-}
+*/
 
 /*h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }*/
 
-button {
-
+/*button {
   width: 90px;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -116,21 +98,21 @@ button {
   font-size: 0.8em;
   font-weight: 800;
   font-family: inherit;
-  background-color: #777373;
+  background-color: #d2c859;
   cursor: pointer;
   transition: border-color 0.25s;
-}
+}*/
 
-button:hover {
+/*button:hover {
   border-color: #646cff;
 }
-
-button:focus,
+*/
+/*button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+}*/
 
-.buttonBlog {
+/*.buttonBlog {
   padding: 0;
   margin: 0;
   font-size: 0.8em;
@@ -138,8 +120,7 @@ button:focus-visible {
   border: 1px solid #055ffbe3;
   font-weight: 400;
   cursor: pointer;
-
-}
+}*/
 
 /*@media (prefers-color-scheme: light) {
   :root {

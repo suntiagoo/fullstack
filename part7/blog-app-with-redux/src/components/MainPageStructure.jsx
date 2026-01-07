@@ -1,12 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 const MainPageStructure = (props) => {
   const dispatch = useDispatch();
 
   const hadleLogOut = () => {
-    console.log(window.localStorage.removeItem("loggedBlogappUser"));
+    console.log(window.localStorage.removeItem('loggedBlogappUser'));
     dispatch({
-      type: "users/setUser",
+      type: 'users/setUser',
       payload: null,
     });
   };
@@ -24,7 +24,7 @@ const MainPageStructure = (props) => {
             }}
           >
             logout
-          </button>{" "}
+          </button>{' '}
         </p>
       </div>
       {props.children}

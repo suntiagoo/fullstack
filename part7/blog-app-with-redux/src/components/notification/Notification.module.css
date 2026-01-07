@@ -1,0 +1,9 @@
+.infoMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid lab(72.25% -35.06 59.05);
+  font-weight: 5em;
+  font-size: 2em;
+  font-style: italic;
+}
