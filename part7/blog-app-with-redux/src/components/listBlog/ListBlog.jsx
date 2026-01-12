@@ -6,6 +6,7 @@ import fetchBlog from '../../services/fetchBlog';
 
 const ListBlog = ({ user }) => {
   const { blog } = useSelector((state) => state);
+
   const blogSort = blog.toSorted((a, b) => b.likes - a.likes);
 
   return blogSort.map((blog) => {
@@ -15,6 +16,7 @@ const ListBlog = ({ user }) => {
 
 const Blog = ({ blog, user }) => {
   const [visible, setVisible] = useState(false);
+  const [comment, setComment] = useState('');
   const dispatch = useDispatch();
 
   const showWhenVisible = { display: visible ? '' : 'none' };
@@ -32,6 +34,12 @@ const Blog = ({ blog, user }) => {
       fetchBlog.setToken(user.token);
       dispatch(removeBlog(id));
     }
+  };
+
+  const handleComment = async (event) => {
+    event.preventDefault();
+    fetchBlog.setToken(login.token);
+    dispatch(addComment(id, comment));
   };
   return (
     <>
@@ -76,6 +84,33 @@ const Blog = ({ blog, user }) => {
                   <strong>{blog.user?.username === undefined ? user.username : blog.user?.username}</strong>
                 </p>
               </span>
+              {
+                <div className={Style['commentContainer']}>
+                  <h4 className={Style['commentTitle']}>Comments:</h4>
+                  <div style={{ padding: '10px' }}>
+                    <form onSubmit={handleComment} style={{ display: 'flex', justifyContent: 'left', textAlign: 'center', alignItems: 'center' }}>
+                      <label className={Style['labelForm']}>
+                        Comment:
+                        <input className={Style['inputForm']} id="comment" data-testid="comment" value={comment} onChange={({ target }) => setComment(target.value)} />
+                      </label>
+                      <button type="submit" style={{ height: '25px' }}>
+                        {' '}
+                        add comment
+                      </button>
+                    </form>
+                  </div>
+                  <ul>
+                    {blog.comments.map((comment) => {
+                      return (
+                        <li className={Style['comment']} key={comment.id || comment._id}>
+                          {' '}
+                          {comment.body}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              }
             </article>
           </div>
         </article>

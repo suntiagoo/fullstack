@@ -6,17 +6,17 @@ import { getUsers } from './reducers/userReducer';
 import MessageInformation from './components/notification/MessageInformation';
 import Login from './components/login/Login';
 import Nav from './components/nav/Nav';
+import NavBootstrap from './components/nav/navBootstrap';
 
 function App() {
   const dispatch = useDispatch();
   const { login } = useSelector((state) => state);
-
   useEffect(() => {
     dispatch(initializeBlog());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch({ type: 'login/setUser' });
+    dispatch({ type: 'login/setLogin' });
   }, [dispatch]);
 
   useEffect(() => {
@@ -25,13 +25,12 @@ function App() {
 
   setTimeout(() => {
     dispatch({ type: 'message/setMessage', payload: null });
-  }, 5000);
-
+  }, 6000);
   return (
-    <div>
+    <div className="container">
       <MessageInformation />
 
-      {login == null ? <Login /> : <Nav />}
+      {login ? <NavBootstrap /> : <Login />}
     </div>
   );
 }

@@ -1,11 +1,13 @@
 //const jwt = require('jsonwebtoken')
 const Blog = require("../models/blog");
-const User = require("../models/user");
+const Comment = require("../models/comment");
 const middleware = require("../utils/middleware");
 const blogRouter = require("express").Router();
 
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+  const blogs = await Blog.find({})
+    .populate("user", { username: 1, name: 1 })
+    .populate("comments", { body: 1, date: 1 });
   const blogObject = blogs.map((blog) => {
     const blogObject = blog.toObject();
     if (!("likes" in blogObject)) {
@@ -42,7 +44,9 @@ blogRouter.post(
          return response.status(401).json({ error: 'token invalid' })
      }
      const user = await User.findById(decodedToken.id)*/
-
+    if (!body) {
+      return response.status(404).json({ error: "the request is failed" });
+    }
     const blog = new Blog({
       title: body.title,
       author: body.author,
@@ -63,12 +67,33 @@ blogRouter.post(
   }
 );
 
+blogRouter.post(
+  "/:id/comments",
+  middleware.tokenExtractor,
+  middleware.userExtractor,
+  async (request, response) => {
+    let blog = await Blog.findById(request.params.id);
+    const body = request.body;
+    const comment = new Comment({
+      title: body.title,
+      body: body.body,
+      blog: blog.id,
+    });
+    const result = await comment.save();
+
+    blog.comments = blog.comments.concat(result._id);
+    await blog.save();
+    return response.status(201).json(result);
+  }
+);
+
 blogRouter.delete(
   "/:id",
   middleware.tokenExtractor,
   middleware.userExtractor,
   async (request, response) => {
     const blog = await Blog.findById(request.params.id);
+
     if (!blog) {
       return response
         .status(404)

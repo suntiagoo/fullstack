@@ -1,7 +1,6 @@
 import Style from '../login/Login.module.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Navigate } from 'react-router-dom';
 import { loggin } from '../../reducers/loginReducer';
 import { useNavigate } from 'react-router-dom';
 import Togglable from '../togglable/Togglable';

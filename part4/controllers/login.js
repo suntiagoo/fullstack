@@ -3,10 +3,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const loginRouter = require("express").Router();
+const middleware = require("../utils/middleware");
 
 loginRouter.post("/", async (request, response) => {
   const { username, password } = request.body;
-  //console.log(username)
   const user = await User.findOne({ username });
   const isPasswordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
@@ -21,7 +21,8 @@ loginRouter.post("/", async (request, response) => {
     id: user._id,
   };
   const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: 60 * 60,
+    expiresIn: "1h",
+    //expiresIn: "3000",
   });
   response
     .status(201)

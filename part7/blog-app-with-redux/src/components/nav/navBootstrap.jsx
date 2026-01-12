@@ -9,8 +9,12 @@ import ListBlogPerUser from '../listBlog/ListBlogPerUser';
 import Login from '../login/Login';
 import BlogPageSimple from '../../pages/blogPageSimple';
 import BlogUnit from '../blogUnit';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Nav = () => {
+const NavBootstrap = () => {
   const { login } = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,33 +29,41 @@ const Nav = () => {
 
   return (
     <>
-      <nav className={Style['containerNav']}>
-        <div>
-          {/* <p style={{ display: 'initial' }}>hola</p>*/}
-          <Link className={Style['link']} to="/">
-            home
-          </Link>
-          <Link className={Style['link']} to="users">
-            users
-          </Link>
-          <Link className={Style['link']} to="blogs">
-            blogs
-          </Link>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {login && <p className={Style['partOfNav']}> {`${login.name} logged in `}</p>}
-          <button
-            className={Style['logOutButton']}
-            onClick={() => {
-              hadleLogOut();
-            }}
-          >
-            logout
-          </button>
-        </div>
-      </nav>
-
-      {<h2 style={{ display: 'flex', justifyContent: 'center' }}> Blog app</h2>}
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container style={{ background: 'black' }}>
+          <Navbar.Brand style={{ color: '#5ab3eb' }} href="#home">
+            BlogApp
+          </Navbar.Brand>
+          <Navbar.Toggle style={{ color: '#5ab3eb', background: '#5ab3eb' }} aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse style={{ color: '#5ab3eb' }} id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link style={{ color: '#5ab3eb' }} href="/" to="/">
+                Home
+              </Nav.Link>
+              <Nav.Link style={{ color: '#5ab3eb' }} href="users" to="users">
+                users
+              </Nav.Link>
+              <Nav.Link style={{ color: '#5ab3eb' }} href="blogs" to="blogs">
+                blogs
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+          <Navbar.Collapse style={{ color: '#5ab3eb' }} className="justify-content-end">
+            <Navbar.Text style={{ color: '#5ab3eb' }}>
+              {`${login.name} logged in `}
+              <button
+                onClick={() => {
+                  hadleLogOut();
+                }}
+                style={{ color: '#5ab3eb' }}
+                href="#login"
+              >
+                logout
+              </button>
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
       <Routes>
         {login ? (
@@ -74,4 +86,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default NavBootstrap;

@@ -1,31 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import fetchBlog from "../services/fetchBlog";
+import { createSlice } from '@reduxjs/toolkit';
+import fetchBlog from '../services/fetchBlog';
 
 const blogSlice = createSlice({
-  name: "blogs",
+  name: 'blogs',
   initialState: [],
   reducers: {
     createBlog(state, action) {
-      const content = action.payload;
-      return [...state, content];
+      //const content = action.payload;
+      //return [...state, content];
+      state.push(action.payload);
     },
     addLike(state, action) {
       const id = action.payload.id;
-      state = state.filter((blog) => blog.id !== id);
-      return [...state, action.payload];
+      const blogs = state.map((blog) => {
+        if (blog.id === id) {
+          blog = { ...blog, likes: action.payload.likes };
+        }
+        return blog;
+      });
+      return blogs;
     },
     setBlog(state, action) {
       return action.payload;
     },
     deleteBlog(state, action) {
       const id = action.payload;
-      state = state.filter((blog) => blog.id !== id);
-      return [...state];
+      //return state.filter((blog) => blog.id !== id);
+      /*state = state.filter((blog) => blog.id !== id);
+      return [...state];*/
+      const blogs = state.filter((blog) => blog.id !== id);
+      return blogs;
+    },
+
+    appendComment(state, action) {
+      const id = action.payload.id;
+      const blogs = state.map((blog) => {
+        if (blog.id === id) {
+          blog = { ...blog, comments: [...blog.comments, action.payload.comment] };
+        }
+        return blog;
+      });
+      return blogs;
     },
   },
 });
 
-const { createBlog, addLike, setBlog, deleteBlog } = blogSlice.actions;
+const { createBlog, addLike, setBlog, deleteBlog, appendComment } = blogSlice.actions;
 
 export const initializeBlog = () => {
   return async (dispatch) => {
@@ -40,18 +60,17 @@ export const appendBlog = (content) => {
       const newBlog = await fetchBlog.create(content);
       dispatch(createBlog(newBlog));
       dispatch({
-        type: "message/setMessage",
+        type: 'message/setMessage',
         payload: `a new blog you're NOT gonna need ir! by "ahi debe ir el nombre del usuario" ${newBlog.id} added`,
       });
       setTimeout(() => {
-        dispatch({ type: "message/setMessage", payload: null });
+        dispatch({ type: 'message/setMessage', payload: null });
       }, 5000);
     } catch (exception) {
-      dispatch({ type: "message/setMessage", payload: `${exception}` });
+      dispatch({ type: 'message/setMessage', payload: `${exception}` });
       setTimeout(() => {
-        dispatch({ type: "message/setMessage", payload: null });
+        dispatch({ type: 'message/setMessage', payload: null });
       }, 5000);
-      alert(exception.response);
     }
   };
 };
@@ -62,9 +81,9 @@ export const increaseLike = (id, content) => {
       const updateBlog = await fetchBlog.update(id, content);
       dispatch(addLike(updateBlog));
     } catch (exception) {
-      dispatch({ type: "message/setMessage", payload: `${exception}` });
+      dispatch({ type: 'message/setMessage', payload: `${exception}` });
       setTimeout(() => {
-        dispatch({ type: "message/setMessage", payload: null });
+        dispatch({ type: 'message/setMessage', payload: null });
       }, 5000);
       alert(exception.response);
     }
@@ -77,8 +96,18 @@ export const removeBlog = (id) => {
       await fetchBlog.remove(id);
       dispatch(deleteBlog(id));
     } catch (exception) {
-      dispatch({ type: "message/setMessage", payload: `${exception}` });
-      alert(exception);
+      dispatch({ type: 'message/setMessage', payload: ` ${exception}` });
+    }
+  };
+};
+
+export const addComment = (id, content) => {
+  return async (dispatch) => {
+    try {
+      const comment = await fetchBlog.createComment(id, { body: content });
+      dispatch(appendComment({ id, comment }));
+    } catch (exception) {
+      dispatch({ type: 'message/setMessage', payload: ` ${exception}` });
     }
   };
 };

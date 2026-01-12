@@ -6,9 +6,8 @@ const loginSlice = createSlice({
   name: 'login',
   initialState: null,
   reducers: {
-    setUser(state, action) {
+    setLogin(state, action) {
       const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
-
       if (loggedUserJSON) {
         return JSON.parse(loggedUserJSON);
       }
@@ -18,13 +17,13 @@ const loginSlice = createSlice({
   },
 });
 
-const { setUser } = loginSlice.actions;
+const { setLogin } = loginSlice.actions;
 
 export const loggin = (credentials) => {
   return async (dispatch) => {
     try {
       const user = await fetchLogin.login(credentials);
-      dispatch(setUser(user));
+      dispatch(setLogin(user));
       dispatch({
         type: 'message/setMessage',
         payload: ` welcome ${user.name} to blog app `,
@@ -33,7 +32,7 @@ export const loggin = (credentials) => {
       fetchBlog.setToken(user.token);
     } catch (exception) {
       dispatch({ type: 'message/setMessage', payload: `${exception}` });
-      alert(` la ecepcion${exception}`);
+      alert(` ${exception}`);
     }
   };
 };
