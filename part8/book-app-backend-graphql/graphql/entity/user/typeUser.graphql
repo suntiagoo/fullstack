@@ -1,0 +1,19 @@
+interface Error {
+  message: String!
+}
+
+type User {
+  username: String!
+  passwordHash: String!
+  favoriteGenre: String!
+  team: [User]
+  id: ID!
+}
+
+type Mutation {
+  createUser(username: String!, password: String!, favoriteGenre: String!): User
+}
+
+type Query {
+  me: User
+}

@@ -1,0 +1,33 @@
+enum Genres {
+  refactoring
+  agile
+  patterns
+  design
+  classic
+  crime
+  revolution
+}
+
+type Book {
+  title: String!
+  published: Int!
+  author: Author!
+  id: ID!
+  genres: [String!]!
+}
+
+type Mutation {
+  addBook(
+    title: String!
+    published: Int!
+    author: String!
+    genres: [String!]!
+  ): Book
+}
+
+type Query {
+  bookCount: Int!
+  allbooks: [Book!]!
+  allBooksWIthArg(author: String!): [Book]
+  allBooksAccordingToGenresAndAuthor(genres: Genres, author: String): [Book!]!
+}

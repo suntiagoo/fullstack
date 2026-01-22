@@ -8,6 +8,7 @@ blogRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({})
     .populate("user", { username: 1, name: 1 })
     .populate("comments", { body: 1, date: 1 });
+  //.populate("blogs", { title: 1, author: 1 });
   const blogObject = blogs.map((blog) => {
     const blogObject = blog.toObject();
     if (!("likes" in blogObject)) {
@@ -63,6 +64,13 @@ blogRouter.post(
     const newBlog = await blog.save();
     request.user.blogs = request.user.blogs.concat(newBlog._id);
     await request.user.save();
+
+    //newBlog.blogs = newBlog.blogs.concat(newBlog.id);
+    //await newBlog.save();
+    //const aux = await Blog.findById(newBlog._id);
+    //aux.blogs = aux.blogs.concat(newBlog._id);
+    //await aux.save();
+
     return response.status(201).json(newBlog);
   }
 );
