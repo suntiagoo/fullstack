@@ -29,5 +29,5 @@ type Query {
   bookCount: Int!
   allbooks: [Book!]!
   allBooksWIthArg(author: String!): [Book]
-  allBooksAccordingToGenresAndAuthor(genres: Genres, author: String): [Book!]!
+  allBooksAccordingToGenresAndAuthor(genres: Genres, author: String): [Book!]
 }

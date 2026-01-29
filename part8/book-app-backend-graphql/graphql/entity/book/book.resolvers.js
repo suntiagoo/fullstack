@@ -8,17 +8,18 @@ module.exports = {
   Query: {
     bookCount: async () => await Book.collection.countDocuments(),
     allbooks: async () => {
-      return (
-        await Book.find({}).populate("author", { name: 1, born: 1, _id: 0 })
-      ).map((book) => {
-        return {
-          title: book.title,
-          published: book.published,
-          genres: book.genres,
-          author: book.author.name,
-          born: book.author.born,
-        };
-      });
+      return (await Book.find({}).populate("author", { name: 1, born: 1 })).map(
+        (book) => {
+          return {
+            id: book.id,
+            title: book.title,
+            published: book.published,
+            genres: book.genres,
+            author: book.author.name,
+            born: book.author?.born || null,
+          };
+        },
+      );
     },
     allBooksWIthArg: async (root, args) => {
       const books = (
@@ -36,7 +37,7 @@ module.exports = {
             published: book.published,
             genres: book.genres,
             author: book.author?.name,
-            born: book.author?.born,
+            born: book.author?.born || null,
           };
         });
       if (!args.author) {
@@ -48,7 +49,7 @@ module.exports = {
             published: book.published,
             genres: book.genres,
             author: book.author?.name,
-            born: book.author?.born,
+            born: book.author?.born || null,
           };
         });
       }
@@ -72,18 +73,25 @@ module.exports = {
       return args.author || args.genres
         ? books.filter(bookGenre).map((book) => {
             return {
+              id: book.id,
               title: book.title,
               published: book.published,
               genres: book.genres,
               author: book.author?.name,
-              born: book.author?.born,
+              born: book.author?.born || null,
             };
           })
-        : books;
+        : null;
     },
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, { currentUser }) => {
+      if (!currentUser) {
+        throw new GraphQLError("wrong credentials", {
+          extensions: { code: "BAD_USER_INPUT" },
+        });
+      }
+
       if (args.title.length < 5) {
         throw new GraphQLError(
           "Invalid argument value the title must be more long than 5",

@@ -12,7 +12,7 @@ module.exports = {
       const isPasswordCorrect =
         user === null
           ? false
-          : await bcrypt.compare(args.password, user.passwordHash);
+          : bcrypt.compare(args.password, user.passwordHash);
 
       if (!(user && isPasswordCorrect)) {
         throw new GraphQLError("wrong credentials", {

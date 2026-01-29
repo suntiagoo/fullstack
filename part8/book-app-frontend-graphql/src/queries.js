@@ -1,5 +1,13 @@
 import { gql } from "@apollo/client";
 
+export const RECOMMEND_USER = gql`
+  query {
+    me {
+      favoriteGenre
+    }
+  }
+`;
+
 export const ALL_AUTHORS = gql`
   query {
     allAuthors {
@@ -16,8 +24,12 @@ export const ALL_BOOKS = gql`
     allbooks {
       title
       published
-      author
+      genres
       id
+      author {
+        name
+        born
+      }
     }
   }
 `;
@@ -37,9 +49,11 @@ export const ADD_BOOK = gql`
     ) {
       title
       published
-      author
+      author {
+        name
+        born
+      }
       genres
-      id
     }
   }
 `;
@@ -50,6 +64,39 @@ export const EDIT_AUTHOR = gql`
       name
       born
       id
+    }
+  }
+`;
+
+export const LOGIN = gql`
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      value
+    }
+  }
+`;
+
+export const GENRES = gql`
+  query {
+    __type(name: "Genres") {
+      enumValues {
+        name
+      }
+    }
+  }
+`;
+
+export const ALL_BOOK_BY_GENRE = gql`
+  query AllBooksAccordingToGenresAndAuthor($genres: Genres) {
+    allBooksAccordingToGenresAndAuthor(genres: $genres) {
+      title
+      published
+      id
+      genres
+      author {
+        name
+        born
+      }
     }
   }
 `;

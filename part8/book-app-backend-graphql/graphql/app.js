@@ -15,12 +15,13 @@ const startApolloServer = async () => {
   await server.start();
 
   app.use(
-    "/graphql",
+    "/",
     cors(),
     express.json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
         const auth = req ? req.headers.authorization : null;
+
         if (auth && auth.startsWith("Bearer ")) {
           const decodedToken = jwt.verify(
             auth.substring(7),

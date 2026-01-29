@@ -4,15 +4,23 @@ const { GraphQLError } = require("graphql");
 const User = require("../../models/user");
 const bcrypt = require("bcrypt");
 
-const resolvers = {
+module.exports = {
   Query: {
-    me: async (root, args, context) => {
-      return context.currentUser;
+    me: (root, args, { currentUser }) => {
+      console.log(currentUser);
+      return currentUser;
     },
   },
   Mutation: {
     createUser: async (root, args, { currentUser }) => {
-      console.log("current", currentUser);
+      if (!currentUser) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
       if (args.username?.length < 3) {
         throw new GraphQLError(
           "Invalid argument value the username must be more long than 3",
@@ -69,8 +77,4 @@ const resolvers = {
       return aux;
     },
   },
-};
-
-module.exports = {
-  resolvers,
 };

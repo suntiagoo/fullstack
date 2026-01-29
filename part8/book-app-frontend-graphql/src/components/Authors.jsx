@@ -6,7 +6,6 @@ import Select from "react-select";
 
 const Authors = () => {
   const authors = useQuery(ALL_AUTHORS);
-  //const [name, setName] = useState("");
   const [born, setBorn] = useState("");
   const [editAuthor, result] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
@@ -24,12 +23,11 @@ const Authors = () => {
     if (result.data && result.data.editAuthor === null) {
       console.log("error");
     }
-  });
+  }, [result]);
 
   const submit = (event) => {
     event.preventDefault();
-    editAuthor({ variables: { name, born } });
-    //setName("");
+    editAuthor({ variables: { name: selectedOption.value, born } });
     setBorn("");
   };
 

@@ -1,16 +1,43 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client/react";
-import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from "../queries";
+import {
+  ADD_BOOK,
+  ALL_AUTHORS,
+  ALL_BOOKS,
+  ALL_BOOK_BY_GENRE,
+} from "../../queries";
+import { useContext } from "react";
+import NotificationContext from "../NotificationContext";
 import Style from "../form/form.module.css";
 const NewBook = () => {
+  const { notificationDispatch } = useContext(NotificationContext);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [published, setPublished] = useState(null);
   const [genre, setGenre] = useState("");
   const [genres, setGenres] = useState([]);
-  const [createBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
-  });
+  const [createBook] = useMutation(
+    ADD_BOOK,
+    {
+      refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+    },
+    {
+      onError: (error) => {
+        notificationDispatch({
+          type: "SET_MESSAGE",
+          payload: error.graphQLErrors[0].message,
+        });
+      },
+      update: (cache, response) => {
+        cache.updateQuery({ query: ALL_BOOKS }, ({ allbooks }) => {
+          console.log(response);
+          return {
+            allbooks: allbooks.concat(response.data.createBook),
+          };
+        });
+      },
+    },
+  );
 
   const submit = async (event) => {
     event.preventDefault();

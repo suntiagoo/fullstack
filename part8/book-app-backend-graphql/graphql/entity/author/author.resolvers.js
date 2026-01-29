@@ -13,7 +13,7 @@ module.exports = {
         return {
           name: author.name,
           id: author.id,
-          born: author.born,
+          born: author.born || null,
           bookCount: Book.collection.countDocuments({
             author: author._id,
           }),
