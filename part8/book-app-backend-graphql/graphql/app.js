@@ -1,4 +1,15 @@
+const logger = require("../utils/logger");
+const { createServer } = require("http");
+const {
+  ApolloServerPluginDrainHttpServer,
+} = require("@apollo/server/plugin/drainHttpServer");
+const {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} = require("@apollo/server/plugin/landingPage/default");
 const { ApolloServer } = require("@apollo/server");
+const { WebSocketServer } = require("ws");
+const { useServer } = require("graphql-ws/use/ws");
 const { expressMiddleware } = require("@as-integrations/express5");
 const User = require("./models/user");
 const cors = require("cors");
@@ -7,15 +18,42 @@ const express = require("express");
 const app = express();
 const { schema } = require("./entity/index");
 
-const server = new ApolloServer({
-  schema,
-});
+const startApolloServer = async (port) => {
+  const app = express();
+  const httpServer = createServer(app);
 
-const startApolloServer = async () => {
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/graphql",
+  });
+
+  const serverCleanup = useServer({ schema }, wsServer);
+
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      ApolloServerPluginLandingPageLocalDefault({
+        embed: true,
+        endpointIsEditable: true,
+        footer: false,
+      }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
+
   await server.start();
 
   app.use(
-    "/",
+    "/graphql",
     cors(),
     express.json(),
     expressMiddleware(server, {
@@ -37,9 +75,11 @@ const startApolloServer = async () => {
       },
     }),
   );
+
+  httpServer.listen(port, () =>
+    logger.info(`Server is now running on http://localhost:${port}`),
+  );
   //await server.stop();
 };
 
-startApolloServer();
-
-module.exports = app;
+module.exports = startApolloServer;

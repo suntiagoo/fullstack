@@ -1,4 +1,6 @@
 const { GraphQLError } = require("graphql");
+const { PubSub } = require("graphql-subscriptions");
+const pubsub = new PubSub();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const Book = require("../../models/book");
@@ -134,7 +136,7 @@ module.exports = {
       });
 
       try {
-        return await book.save();
+        await book.save();
       } catch (excpetion) {
         throw new GraphQLError(excpetion.name, {
           extensions: {
@@ -142,6 +144,11 @@ module.exports = {
           },
         });
       }
+      pubsub.publish("BOOK_ADDED", {
+        bookAdded: book,
+      });
+
+      return book;
     },
   },
   Book: {
@@ -150,6 +157,11 @@ module.exports = {
         name: root.author,
         born: root.born,
       };
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterableIterator(["BOOK_ADDED"]),
     },
   },
 };

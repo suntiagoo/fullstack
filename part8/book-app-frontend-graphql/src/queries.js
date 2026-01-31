@@ -11,9 +11,9 @@ export const RECOMMEND_USER = gql`
 export const ALL_AUTHORS = gql`
   query {
     allAuthors {
+      id
       name
       born
-      id
       bookCount
     }
   }
@@ -22,10 +22,36 @@ export const ALL_AUTHORS = gql`
 export const ALL_BOOKS = gql`
   query {
     allbooks {
+      id
+      title
+      published
+
+      author {
+        name
+        born
+      }
+      genres
+    }
+  }
+`;
+
+export const GENRES = gql`
+  query {
+    __type(name: "Genres") {
+      enumValues {
+        name
+      }
+    }
+  }
+`;
+
+export const ALL_BOOK_BY_GENRE = gql`
+  query AllBooksAccordingToGenresAndAuthor($genres: Genres) {
+    allBooksAccordingToGenresAndAuthor(genres: $genres) {
+      id
       title
       published
       genres
-      id
       author {
         name
         born
@@ -47,6 +73,7 @@ export const ADD_BOOK = gql`
       author: $author
       genres: $genres
     ) {
+      id
       title
       published
       author {
@@ -61,9 +88,9 @@ export const ADD_BOOK = gql`
 export const EDIT_AUTHOR = gql`
   mutation editAuthor($name: String!, $born: Int!) {
     editAuthor(name: $name, born: $born) {
+      id
       name
       born
-      id
     }
   }
 `;
@@ -76,22 +103,12 @@ export const LOGIN = gql`
   }
 `;
 
-export const GENRES = gql`
-  query {
-    __type(name: "Genres") {
-      enumValues {
-        name
-      }
-    }
-  }
-`;
-
-export const ALL_BOOK_BY_GENRE = gql`
-  query AllBooksAccordingToGenresAndAuthor($genres: Genres) {
-    allBooksAccordingToGenresAndAuthor(genres: $genres) {
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      id
       title
       published
-      id
       genres
       author {
         name

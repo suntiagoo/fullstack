@@ -16,6 +16,10 @@ type Book {
   genres: [String!]!
 }
 
+type Subscription {
+  bookAdded: Book!
+}
+
 type Mutation {
   addBook(
     title: String!

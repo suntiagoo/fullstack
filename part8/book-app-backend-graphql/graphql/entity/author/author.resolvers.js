@@ -1,6 +1,4 @@
 const { GraphQLError } = require("graphql");
-//const mongoose = require("mongoose");
-//mongoose.set("strictQuery", false);
 const Book = require("../../models/book");
 const Author = require("../../models/author");
 

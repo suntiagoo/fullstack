@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 module.exports = {
   Query: {
     me: (root, args, { currentUser }) => {
-      console.log(currentUser);
       return currentUser;
     },
   },

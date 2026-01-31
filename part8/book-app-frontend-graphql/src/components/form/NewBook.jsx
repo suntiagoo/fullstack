@@ -9,7 +9,8 @@ import {
 import { useContext } from "react";
 import NotificationContext from "../NotificationContext";
 import Style from "../form/form.module.css";
-const NewBook = () => {
+
+const NewBook = ({ updateCache }) => {
   const { notificationDispatch } = useContext(NotificationContext);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -29,12 +30,13 @@ const NewBook = () => {
         });
       },
       update: (cache, response) => {
-        cache.updateQuery({ query: ALL_BOOKS }, ({ allbooks }) => {
-          console.log(response);
-          return {
-            allbooks: allbooks.concat(response.data.createBook),
-          };
-        });
+        // cache.updateQuery({ query: ALL_BOOKS }, ({ allbooks }) => {
+        //   console.log("response", response);
+        //   return {
+        //     allbooks: allbooks.concat(response.data.addBook),
+        //   };
+        // });
+        updateCache(response.data.createBook);
       },
     },
   );
