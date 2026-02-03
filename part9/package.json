@@ -4,12 +4,13 @@
   "description": "Body mass index app",
   "license": "ISC",
   "author": "tiago",
-  "type": "commonjs",
+  "type": "commonjs",  
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-node": "ts-node",
     "dev": "ts-node-dev index.ts",
+    "lint": "eslint --ext .ts .",
     "start": "ts-node index.ts",
     "imc": "ts-node bmiCalculator.ts",
     "exerciseCalculator": "ts-node exerciseCalculator.ts"
@@ -17,6 +18,9 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "eslint": "^9.39.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
@@ -25,3 +29,4 @@
     "express": "^5.2.1"
   }
 }
+

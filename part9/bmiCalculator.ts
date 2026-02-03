@@ -23,7 +23,7 @@ const parseArguments = (args: string[]): ValueArg => {
 };
 
 export const imc = (mass: number, height: number): Bmi => {
-  let imcValue = mass / (height / 100) ** 2;
+  const imcValue = mass / (height / 100) ** 2;
   let bmi: string = "";
 
   if (imcValue < 18.5) {
