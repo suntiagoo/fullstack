@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import { Button, Divider, Container, Typography } from '@mui/material';
+import { Button, Divider, Container, Typography } from "@mui/material";
 
 import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { Patient, Diagnosis } from "./types";
 
 import patientService from "./services/patients";
+import diagnosisService from "./services/diagnosis";
 import PatientListPage from "./components/PatientListPage";
+import PatientUnit from "./components/PatientUnitPage";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
-
+  //const [diagnosis, setDiagnosis] = useState<Diagnosis['code'] | []>([]);
+  const [diagnosis, setDiagnosis] = useState<Diagnosis[] | []>([]);
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
 
@@ -21,7 +24,16 @@ const App = () => {
     };
     void fetchPatientList();
   }, []);
-  
+
+  useEffect(() => {
+    const fetchDiagnosisList = async () => {
+      const diagnosis = await diagnosisService.getAll();
+      //setDiagnosis(diagnosis[0].code);
+      setDiagnosis(diagnosis);
+    };
+    void fetchDiagnosisList();
+  }, []);
+
   return (
     <div className="App">
       <Router>
@@ -34,7 +46,29 @@ const App = () => {
           </Button>
           <Divider hidden />
           <Routes>
-            <Route path="/" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
+            <Route
+              path="/"
+              element={
+                <PatientListPage
+                  patients={patients}
+                  setPatients={setPatients}
+                />
+              }
+            />
+            {/*<Route path="patients/:id" element={ <PatientListPage patients={patients} patientUnit={true} />}/>*/}
+            {
+              <Route
+                path="patients/:id"
+                element={
+                  <PatientUnit
+                    patients={patients}
+                    setPatients={setPatients}
+                    diagnosis={diagnosis}
+                    setDiagnosis={setDiagnosis}
+                  />
+                }
+              />
+            }
           </Routes>
         </Container>
       </Router>

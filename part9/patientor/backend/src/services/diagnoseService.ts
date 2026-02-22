@@ -1,12 +1,13 @@
 import data from "../../data/diagnoses";
-import { Diagnose } from "../../types";
+import { Diagnosis } from "../../types";
 
-const getAll = (): Diagnose[] => {
+const getAll = (): Diagnosis[] => {
   return data;
 };
 
-const createDiagnose = () => {
-  return null;
+const createDiagnose = (object: Diagnosis): Diagnosis => {
+  data.push(object);
+  return object;
 };
 
 export default {

@@ -6,9 +6,12 @@ const getAll = (): Patient[] => {
   return data;
 };
 
-const findById = (id: number): Patient | undefined => {
-  const patient = data.find((p) => Number(p.id) === Number(id));
-  return patient;
+const findById = (id: string): Patient | null => {
+  const patient = data.find((p) => p.id.toString() === id.toString());
+  if (patient) {
+    return patient;
+  }
+  return null;
 };
 
 const createPatient = (entry: NewPatientEntry): Patient => {

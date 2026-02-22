@@ -9,7 +9,11 @@ import {
   TableRow,
   TableBody,
 } from "@mui/material";
+import WomanIcon from "@mui/icons-material/Woman";
+import ManIcon from "@mui/icons-material/Man";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { PatientFormValues, Patient } from "../../types";
 import AddPatientModal from "../AddPatientModal";
@@ -20,12 +24,18 @@ import patientService from "../../services/patients";
 
 interface Props {
   patients: Patient[];
-  setPatients: React.Dispatch<React.SetStateAction<Patient[]>>;
+  setPatients?: React.Dispatch<React.SetStateAction<Patient[]>>;
+  patientUnit?: boolean;
 }
 
-const PatientListPage = ({ patients, setPatients }: Props) => {
+const PatientListPage = ({ patients, setPatients, patientUnit }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  const id = useParams().id;
+  const patientUnique: Patient[] = patients.filter(
+    (patient: Patient) => patient.id === id,
+  );
 
   const openModal = (): void => setModalOpen(true);
 
@@ -37,7 +47,7 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
   const submitNewPatient = async (values: PatientFormValues) => {
     try {
       const patient = await patientService.create(values);
-      setPatients(patients.concat(patient));
+      if (setPatients) setPatients(patients.concat(patient));
       setModalOpen(false);
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
@@ -57,12 +67,13 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
       }
     }
   };
-
   return (
     <div className="App">
       <Box>
         <Typography align="center" variant="h6">
-          Patient list
+          {patientUnit
+            ? `patient: ${patientUnique[0] ? patientUnique[0].name : ""} `
+            : "Patient list"}
         </Typography>
       </Box>
       <Table style={{ marginBottom: "1em" }}>
@@ -75,16 +86,36 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(patients).map((patient: Patient) => (
-            <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
-              <TableCell>{patient.gender}</TableCell>
-              <TableCell>{patient.occupation}</TableCell>
-              <TableCell>
-                <HealthRatingBar showText={false} rating={1} />
-              </TableCell>
-            </TableRow>
-          ))}
+          {Object.values(patientUnit ? patientUnique : patients).map(
+            (patient: Patient) => (
+              <TableRow key={patient.id}>
+                {
+                  <TableCell>
+                    {" "}
+                    <Link
+                      style={{ color: "coral", textDecoration: "none" }}
+                      to={`/patients/${patient.id}`}
+                    >
+                      {patient.name}
+                    </Link>
+                  </TableCell>
+                }
+                <TableCell>
+                  {patient.gender === "female" ? (
+                    <WomanIcon />
+                  ) : patient.gender === "male" ? (
+                    <ManIcon />
+                  ) : (
+                    "other"
+                  )}
+                </TableCell>
+                <TableCell>{patient.occupation}</TableCell>
+                <TableCell>
+                  <HealthRatingBar showText={false} rating={1} />
+                </TableCell>
+              </TableRow>
+            ),
+          )}
         </TableBody>
       </Table>
       <AddPatientModal

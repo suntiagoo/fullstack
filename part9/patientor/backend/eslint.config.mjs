@@ -57,6 +57,7 @@ export default defineConfig([
           argsIgnorePattern: "^_",
         },
       ],
+      allowInterfaces: "with-single-extends",
 
       "no-case-declarations": "off",
     },
